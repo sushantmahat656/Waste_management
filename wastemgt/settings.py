@@ -69,7 +69,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'waste_management',
         'USER': 'root',
-        'PASSWORD':'Password1234',
+        'PASSWORD':'',
         'HOST':'localhost',
         'PORT':'3306',
     }

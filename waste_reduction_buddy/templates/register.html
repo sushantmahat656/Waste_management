@@ -1,33 +1,79 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
 <div class="col-md-6 offset-md-3">
-<h1>Register</h1>
-<br/>
+    <h1>Register</h1>
+    <br/>
 
-<form method="POST" action="">
-	{% csrf_token %}
-	{% if form.errors %}
-			<div class="alert alert-warning alert-dismissible fade show" role="alert">
-			  Your Form Has Errors
-			  {% for field in form %}
-			  	{% if field.errors %}
-			  		{{ field.errors }}
-			  	{% endif %}
-			  {% endfor %}
-			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-			</div>
-		{% endif %}
+    <form method="POST" action="">
+        {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                Please fill the form with all the requirements:
+                {% for field in form %}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            {{ field.label }}: {{ error }}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
 
-	{{ form.as_p }}
+        {{ form.email.errors }}
+        <div class="mb-2">
+            <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
+            <input type="email" class="form-control" name="{{ form.email.name }}" placeholder="Enter your email" required>
+        </div>
 
-	<br/>
-	  <button type="submit" class="btn btn-secondary">Register</button>
-	</form>
+        {{ form.first_name.errors }}
+        <div class="mb-2">
+            <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+            <input type="text" class="form-control" name="{{ form.first_name.name }}" placeholder="Enter your first name" required>
+        </div>
 
+        {{ form.last_name.errors }}
+        <div class="mb-2">
+            <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+            <input type="text" class="form-control" name="{{ form.last_name.name }}" placeholder="Enter your last name" required>
+        </div>
 
+        {{ form.password1.errors }}
+        <div class="mb-4">
+            <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="{{ form.password1.name }}" placeholder="Enter your Password" required>
+                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('{{ form.password1.id_for_label }}')">
+                    Show
+                </button>
+            </div>
+        </div>
 
+        {{ form.password2.errors }}
+        <div class="mb-4">
+            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+            <div class="input-group">
+                <input type="password" class="form-control" name="{{ form.password2.name }}" placeholder="Confirm your Password" required>
+                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('{{ form.password2.id_for_label }}')">
+                    Show
+                </button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Register</button>
+    </form>
 </div>
+
+<script>
+    function togglePassword(inputId) {
+        var input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+        } else {
+            input.type = "password";
+        }
+    }
+</script>
 
 {% endblock %}

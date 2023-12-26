@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="col-md-6 offset-md-3">
+    {% if user.is_authenticated %}
+      <h1>Hello!!! world</h1>
+    {% else %}
+      <div class="card mx-auto" style="width: 18rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
+        <div class="card-body text-center">
+          <h5 class="card-title">Login</h5>
+          <br/>
+          <form method="POST" action="{% url 'login_user' %}">
+            {% csrf_token %}
+            <div class="mb-2">
+              <label for="InputEmail1" class="form-label">Username</label>
+              <input type="email" class="form-control" name="username" placeholder="Enter your email" required>
+              <small class="form-text text-muted">We'll never share your email with anyone.</small>
+            </div>
+            <div class="mb-4">
+              <label for="InputPassword1" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" placeholder="Enter your Password" required>
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+          </form>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

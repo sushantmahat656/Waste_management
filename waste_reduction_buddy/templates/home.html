@@ -1,33 +1,10 @@
-{% extends 'base.html'%}
-{%block content %}
+{% extends 'base.html' %}
+{% block content %}
 
-
-  <div class="col-md-6 offset-md-3">
-  {% if user.is_authenticated %}
-
+  {% if user.is_authenticated and email_domain == 'admin.com' %}
     <h1>Hello!!! world</h1>
-
-  {% else %}
-    <h1> login!!</h1>
-    <br/>
-    <form method="POST" action = "{% url 'home' %}">
-    	{%csrf_token %}
-    	<form>
-      <div class="mb-2">
-        <label for="InputEmail1" class="form-label">Username</label>
-        <input type="email" class="form-control" name ="username", placeholder="Enter your email" required>
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-      </div>
-      <div class="mb-4">
-        <label for="InputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" name ="password", placeholder="Enter your Password" required>
-      </div>
-      
-      <button type="submit" class="btn btn-secondary">Login</button>
-    </form>
-    </form>
-    </div>
-
-  {% endif %}
-
+    <p>Welcome, Admin.</p>
+    {% else %}
+      <p>You are from a different domain.</p>
+    {% endif %}
 {% endblock %}

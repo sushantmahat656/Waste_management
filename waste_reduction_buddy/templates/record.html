@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Staff Record</h1>
+<div class="card">
+  <h5 class="card-header">
+  {{ staff_record.first_name }} {{ staff_record.last_name }}</h5>
+  
+  <div class="card-body">
+
+
+
+<p class="card-text">
+<strong>Email: </strong>{{ staff_record.email }}</p>
+
+<p class="card-text">
+<strong>Phone: </strong>{{ staff_record.phone }}
+</p>
+
+<p class="card-text">
+<strong>Address: </strong>{{ staff_record.address }}</p>
+
+<p class="card-text">
+<strong>City: </strong>{{ staff_record.city }}</p>
+
+<p class="card-text">
+<strong>State: </strong>{{ staff_record.state }}</p>
+
+<p class="card-text">
+<strong>Zipcode: </strong>{{ staff_record.zipcode }}</p>
+
+<p class="card-text">
+<strong>Create At: </strong>{{ staff_record.created_at }}</p>
+
+<p class="card-text">
+<strong>ID: </strong>{{ staff_record.id }}</p>
+    
+    
+  </div>
+</div>
+
+<br/><br/>			
+<a href="{% url 'home' %}" class="btn btn-success">Back</a>
+
+<a href="{% url 'delete_staff_record' staff_record.id %}" class="btn btn-danger">Delete</a>
+
+{% endblock %}

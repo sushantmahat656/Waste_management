@@ -2,10 +2,16 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm,AddStaffRecord
+from .models import Record
+
 
 def home(request):
-    return render(request, 'home.html', {})
+    records = Record.objects.all()
+    # appointments = Appointment.objects.all()
+    email_domain = request.session.get('email_domain', None)
+    return render(request, 'home.html', {'records': records ,'email_domain': email_domain})
+    
 
 def login_user(request):
     if request.method == 'POST':
@@ -13,14 +19,16 @@ def login_user(request):
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
+        if user is not None and user.is_authenticated:
             login(request, user)
             messages.success(request, "You have been Logged in!!")
-            email_domain = username.split('@')[-1]
-            return render(request, 'home.html', {'email_domain': email_domain})
-            #return redirect('home')
+            email_domain = (username.split('@')[-1]).lower()
+            request.session['email_domain'] = email_domain
+            return redirect('home')
+            #return render(request, 'home.html', {'email_domain': email_domain})
+            
         else:
-            messages.success(request, "Error logging in. Re-try again later...")
+            messages.error(request, "Error logging in. Re-try again later...")
             return redirect('home')
     else:
         return render(request, 'login.html', {})
@@ -42,10 +50,49 @@ def register_user(request):
                 user = authenticate(request, username=email, password=password)
                 login(request, user)
                 messages.success(request, "You have successfully registered.")
-                return redirect('login_user')
+                email_domain = (email.split('@')[-1]).lower()
+                request.session['email_domain'] = email_domain
+                return redirect('home')
             except IntegrityError:
                 messages.error(request, "This email address is already in use. Please use a different email.")
     else:
         form = SignUpForm()
 
     return render(request, 'register.html', {'form':form})
+
+def staff_record(request,pk):
+    email_domain = request.session.get('email_domain', None)
+    if request.user.is_authenticated and email_domain == 'admin.com':
+        staff_record =Record.objects.get(id = pk)
+        return render(request, 'record.html', {'staff_record':staff_record},)
+    else:
+        messages.error(request, "You must be Admin to update.")
+        return redirect('home')
+
+def delete_staff_record(request, pk):
+    email_domain = request.session.get('email_domain', None)
+    if request.user.is_authenticated and email_domain == 'admin.com':
+        delete_record = Record.objects.get(id=pk)
+        delete_record.delete()
+        messages.success(request, "Record Deleted Successfully...")
+        return redirect('home')
+    else:
+        messages.error(request, "You Must Be Logged In To Delete Record...")
+        return redirect('home')
+
+
+def add_staff_record(request):
+    email_domain = request.session.get('email_domain', None)
+    form = AddStaffRecord(request.POST or None)
+    if request.user.is_authenticated and email_domain == 'admin.com':
+        if request.method == "POST":
+            if form.is_valid():
+                add_staff_record = form.save()
+                messages.success(request, "Record Added...")
+                return redirect('home')
+        return render(request, 'add_staff_record.html', {'form':form})
+    else:
+        messages.error(request, "You Must Be Logged In...")
+        return redirect('home')
+
+

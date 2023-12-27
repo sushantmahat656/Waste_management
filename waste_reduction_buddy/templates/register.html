@@ -1,79 +1,85 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="col-md-6 offset-md-3">
-    <h1>Register</h1>
-    <br/>
+<div class="container">
+  <div class="col-md-5 offset-md-3">
+    <div class="card mx-auto" style="width: 25rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
+      <div class="card-body text-center">
+        <h5 class="card-title">Register</h5>
+        <br/>
 
-    <form method="POST" action="">
-        {% csrf_token %}
-        {% if form.errors %}
+        <form method="POST" action="">
+          {% csrf_token %}
+          {% if form.errors %}
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                Please fill the form with all the requirements:
-                {% for field in form %}
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            {{ field.label }}: {{ error }}
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              Please fill the form with all the requirements:
+              {% for field in form %}
+                {% if field.errors %}
+                  {% for error in field.errors %}
+                    {{ field.label }}: {{ error }}
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        {% endif %}
+          {% endif %}
+          
 
-        {{ form.email.errors }}
-        <div class="mb-2">
+          <div class="mb-2 text-right">
             <label for="{{ form.email.id_for_label }}" class="form-label">Email</label>
             <input type="email" class="form-control" name="{{ form.email.name }}" placeholder="Enter your email" required>
-        </div>
+          </div>
 
-        {{ form.first_name.errors }}
-        <div class="mb-2">
+          <div class="mb-2 text-right">
             <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
             <input type="text" class="form-control" name="{{ form.first_name.name }}" placeholder="Enter your first name" required>
-        </div>
+          </div>
 
-        {{ form.last_name.errors }}
-        <div class="mb-2">
+          <div class="mb-2 text-right">
             <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
             <input type="text" class="form-control" name="{{ form.last_name.name }}" placeholder="Enter your last name" required>
-        </div>
+          </div>
 
-        {{ form.password1.errors }}
-        <div class="mb-4">
+          <div class="mb-4 text-right">
             <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
             <div class="input-group">
-                <input type="password" class="form-control" name="{{ form.password1.name }}" placeholder="Enter your Password" required>
-                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('{{ form.password1.id_for_label }}')">
-                    Show
-                </button>
+              <input type="password" class="form-control" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" placeholder="Enter your Password" required>
+              <button class="btn btn-success" type="button" onclick="togglePassword('{{ form.password1.id_for_label }}', 'eyeIcon1')">
+                 <ion-icon id="eyeIcon1" name="eye-off-outline"></ion-icon>
+              </button>
             </div>
-        </div>
+          </div>
 
-        {{ form.password2.errors }}
-        <div class="mb-4">
+          <div class="mb-4 text-right">
             <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
             <div class="input-group">
-                <input type="password" class="form-control" name="{{ form.password2.name }}" placeholder="Confirm your Password" required>
-                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('{{ form.password2.id_for_label }}')">
-                    Show
-                </button>
+              <input type="password" class="form-control" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" placeholder="Confirm your Password" required>
+              <button class="btn btn-success" type="button" onclick="togglePassword('{{ form.password2.id_for_label }}', 'eyeIcon2')">
+                <ion-icon id="eyeIcon2" name="eye-off-outline"></ion-icon>
+              </button>
             </div>
-        </div>
+          </div>
 
-        <button type="submit" class="btn btn-success">Register</button>
-    </form>
+
+          <button type="submit" class="btn btn-success">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-    function togglePassword(inputId) {
-        var input = document.getElementById(inputId);
-        if (input.type === "password") {
-            input.type = "text";
-        } else {
-            input.type = "password";
-        }
+  function togglePassword(inputId, iconId) {
+    var input = document.getElementById(inputId);
+    var icon = document.getElementById(iconId);
+    if (input.type === "password") {
+      input.type = "text";
+      icon.name = "eye-outline";
+    } else {
+      input.type = "password";
+      icon.name = "eye-off-outline";
     }
+  }
 </script>
 
 {% endblock %}

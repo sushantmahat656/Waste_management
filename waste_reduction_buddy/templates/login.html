@@ -2,11 +2,9 @@
 
 {% block content %}
 <div class="container">
-  <div class="col-md-6 offset-md-3">
-    {% if user.is_authenticated %}
-      <h1>Hello!!! world</h1>
-    {% else %}
-      <div class="card mx-auto" style="width: 18rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
+  <div class="col-md-5 offset-md-3">
+    {% if not user.is_authenticated %}
+      <div class="card mx-auto" style="width: 20rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
         <div class="card-body text-center">
           <h5 class="card-title">Login</h5>
           <br/>
@@ -18,9 +16,15 @@
               <small class="form-text text-muted">We'll never share your email with anyone.</small>
             </div>
             <div class="mb-4">
-              <label for="InputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" name="password" placeholder="Enter your Password" required>
+              <label for="InputPassword1" class="form-label">Password</label>   
+              <div class="input-group">
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter your Password" required>
+                <button class="btn btn-success" type="button" onclick="togglePassword('password')">
+                   <ion-icon id="eyeIcon" name="eye-off-outline"></ion-icon>
+                </button>
+              </div>
             </div>
+
             <button type="submit" class="btn btn-success">Login</button>
           </form>
         </div>
@@ -28,4 +32,19 @@
     {% endif %}
   </div>
 </div>
+
+<script>
+  function togglePassword(passwordFieldId) {
+    var passwordField = document.getElementById(passwordFieldId);
+    var icon = document.getElementById('eyeIcon');
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      icon.name = "eye-outline";
+    } else {
+      passwordField.type = "password";
+      icon.name = "eye-off-outline";
+    }
+  }
+</script>
+
 {% endblock %}

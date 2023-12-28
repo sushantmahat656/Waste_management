@@ -1,5 +1,5 @@
 from django.db import IntegrityError
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm,AddStaffRecord
@@ -94,5 +94,23 @@ def add_staff_record(request):
     else:
         messages.error(request, "You Must Be Logged In...")
         return redirect('home')
+
+
+
+
+def update_staff_record(request, pk):
+    email_domain = request.session.get('email_domain', None)
+    if request.user.is_authenticated and email_domain == 'admin.com':
+        current_record = get_object_or_404(Record, id=pk)
+        form = AddStaffRecord(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Record Updated...")
+            return redirect('home')
+        return render(request, 'update_staff_record.html', {'form': form})
+    else:
+        messages.error(request, "You Must Be Logged In...")
+        return redirect('home')
+
 
 

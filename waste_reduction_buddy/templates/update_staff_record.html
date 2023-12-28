@@ -8,13 +8,13 @@
         <h5 class="card-title">Add Staff</h5>
         <br/>
 
-<form method="POST" action="{% url 'add_staff_record' %}">
+<form method="POST" >
 	{% csrf_token %}
 
 	{{ form.as_p }}
 
 <br/>
-  <button type="submit" class="btn btn-success">Add Record</button>
+  <button type="submit" class="btn btn-success">Update </button>
    <a href="{% url 'home' %}" class="btn btn-success">Back</a>
 
 </form>

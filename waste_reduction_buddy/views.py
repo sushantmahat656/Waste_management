@@ -2,15 +2,22 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm,AddStaffRecord
-from .models import Record
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord
+from .models import Record, Appointment
 
 
 def home(request):
     records = Record.objects.all()
-    # appointments = Appointment.objects.all()
+    appointments = Appointment.objects.all()
     email_domain = request.session.get('email_domain', None)
-    return render(request, 'home.html', {'records': records ,'email_domain': email_domain})
+    form = AppointmentRecord(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            appointment_register = form.save()
+            messages.success(request, "Booking Completed...")
+            return redirect('home')
+        
+    return render(request, 'home.html', {'records': records ,'appointments': appointments,'email_domain': email_domain,'form':form})
     
 
 def login_user(request):
@@ -113,4 +120,37 @@ def update_staff_record(request, pk):
         return redirect('home')
 
 
+def appointment_record(request,pk):
+    email_domain = request.session.get('email_domain', None)
+    if request.user.is_authenticated and email_domain == 'admin.com':
+        appointment_record =Appointment.objects.get(id = pk)
+        return render(request, 'appointment.html', {'appointment_record':appointment_record},)
+    else:
+        messages.error(request, "You must be Admin to update.")
+        return redirect('home')
 
+
+def delete_appointment_record(request, pk):
+    email_domain = request.session.get('email_domain', None)
+    if request.user.is_authenticated and email_domain == 'admin.com':
+        delete_record = Appointment.objects.get(id=pk)
+        delete_record.delete()
+        messages.success(request, "Record Deleted Successfully...")
+        return redirect('home')
+    else:
+        messages.error(request, "You Must Be Logged In To Delete Record...")
+        return redirect('home')
+
+def appointment_register(request):
+    form = AppointmentRecord(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            appointment_register = form.save()
+            messages.success(request, "Booking Completed...")
+            return redirect('home')
+        return render(request, 'home.html', {'form':form})
+    else:
+        messages.error(request, "Booking was in Complete.please try again later...")
+        return redirect('home')
+    
+    

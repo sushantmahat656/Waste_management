@@ -15,7 +15,5 @@ urlpatterns = [
     path('appointment_register/', views.appointment_register, name='appointment_register'), 
 
 
-
-
      
 ]

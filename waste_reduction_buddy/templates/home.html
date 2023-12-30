@@ -75,6 +75,8 @@
                   <th scope="col">State</th>
                   <th scope="col">Zipcode</th>
                   <th scope="col">Created At</th>
+                  <th scope="col">Created By</th>
+
                   <!-- <th scope="col">ID</th> -->
                 </tr>
               </thead>
@@ -90,6 +92,7 @@
                       <td>{{ appointment.state }}</td>
                       <td>{{ appointment.zipcode }}</td>
                       <td>{{ appointment.created_at }}</td>
+                      <td>{{ appointment.Created_By }}</td>
                       <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
                     </tr>
                   {% endfor %}
@@ -122,6 +125,7 @@
                   <th scope="col">State</th>
                   <th scope="col">Zipcode</th>
                   <th scope="col">Created At</th>
+                  <th scope="col">Created By</th>
                   <!-- <th scope="col">ID</th> -->
                 </tr>
               </thead>
@@ -135,8 +139,10 @@
                       <td>{{ appointment.address }}</td>
                       <td>{{ appointment.city }}</td>
                       <td>{{ appointment.state }}</td>
-                      <td>{{ appointment.zipcode }}</td>
+                      <td>{{ appointment.zipcode }}</td>                      
                       <td>{{ appointment.created_at }}</td>
+                      <td>{{ appointment.Created_By }}</td>
+
                       <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
                     </tr>
                   {% endfor %}
@@ -158,16 +164,17 @@
     background-size: cover;
     background-position: center;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;;
   }
 
   .container {
-    position: relative;
+    position: absolute;
     z-index: 1;
+    padding: 20px;
   }
 
   .card {
-    position: relative;
+    position: absolute;
     z-index: 2;
     margin-top: 5rem;
     font-family: 'Open Sans', sans-serif;
@@ -176,7 +183,7 @@
     <div class="container">
       <div class="row justify-content-end">
         <div class="col-md-5">
-          <div class="card" style="width: 35rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
+          <div class="card" style="width: 30rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
             <div class="card-body">
               <h5 class="card-title text-center">Book Appointment</h5>
               <br/>
@@ -206,16 +213,16 @@
     background-size: cover;
     background-position: center;
     height: 100vh;
-    overflow: hidden;
+    overflow: auto;;
   }
 
   .container {
-    position: relative;
+    position: absolute;
     z-index: 1;
   }
 
   .card {
-    position: relative;
+    position: absolute;
     z-index: 2;
     margin-top: 5rem;
     font-family: 'Open Sans', sans-serif;
@@ -224,12 +231,13 @@
     <div class="container">
       <div class="row justify-content-end">
         <div class="col-md-5">
-          <div class="card" style="width: 35rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
+          <div class="card" style="width: 30rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
             <div class="card-body">
               <h5 class="card-title text-center">Book Appointment</h5>
               <br/>
               <form method="POST" action="{% url 'appointment_register' %}">
                 {% csrf_token %}
+
                 {{ form.as_p }}
                 <br/>
                 <div class="text-center">

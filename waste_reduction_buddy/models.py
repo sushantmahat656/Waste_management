@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Record(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -23,6 +24,7 @@ class Appointment(models.Model):
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
+    Created_By = models.ForeignKey(User,on_delete=models.CASCADE,null=True, default =None)
     zipcode = models.IntegerField()
 
     def __str__(self):

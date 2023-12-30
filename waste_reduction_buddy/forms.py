@@ -62,4 +62,5 @@ class AppointmentRecord(forms.ModelForm):
 
     class Meta:
         model = Appointment
+        fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zipcode']
         exclude = ("User",)

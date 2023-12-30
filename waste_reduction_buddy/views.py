@@ -55,11 +55,10 @@ def register_user(request):
                 email = form.cleaned_data['email']
                 password = form.cleaned_data['password1']
                 user = authenticate(request, username=email, password=password)
-                login(request, user)
                 messages.success(request, "You have successfully registered.")
                 email_domain = (email.split('@')[-1]).lower()
                 request.session['email_domain'] = email_domain
-                return redirect('home')
+                return redirect('login_user')
             except IntegrityError:
                 messages.error(request, "This email address is already in use. Please use a different email.")
     else:
@@ -143,14 +142,21 @@ def delete_appointment_record(request, pk):
 
 def appointment_register(request):
     form = AppointmentRecord(request.POST or None)
+    
     if request.method == "POST":
         if form.is_valid():
-            appointment_register = form.save()
+            appointment_instance = form.save(commit=False)
+
+            # Check if the user is authenticated
+            if request.user.is_authenticated:
+                # If authenticated, associate the form with the logged-in user
+                appointment_instance.Created_By = request.user
+
+            appointment_instance.save()
             messages.success(request, "Booking Completed...")
             return redirect('home')
-        return render(request, 'home.html', {'form':form})
-    else:
-        messages.error(request, "Booking was in Complete.please try again later...")
-        return redirect('home')
+
+    messages.error(request, "Booking was incomplete. Please try again later...")
+    return redirect('home')
     
     

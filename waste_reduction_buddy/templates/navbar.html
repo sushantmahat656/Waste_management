@@ -8,25 +8,26 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-        {% if user.is_authenticated and email_domain == 'admin.com' %}
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'add_staff_record' %}">Add Staff</a>
-  </li>
-{% endif %}
+        {% if user.is_authenticated and email_user == 'binod.raut@wastebuddy.com' %}
 
-{% if user.is_authenticated %}
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
-  </li>
-{% else %}
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'login_user' %}">Login</a>
-  </li>
-  
-  <li class="nav-item">
-    <a class="nav-link" href="{% url 'register_user' %}">Register</a>
-  </li>
-{% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_staff_record' %}">Add Staff</a>
+          </li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login_user' %}">Login</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+          </li>
+        {% endif %}
 
       </ul>
     </div>

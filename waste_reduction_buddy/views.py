@@ -10,6 +10,7 @@ def home(request):
     records = Record.objects.all()
     appointments = Appointment.objects.all()
     email_domain = request.session.get('email_domain', None)
+    email_user = request.session.get('email_user',None)
     form = AppointmentRecord(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
@@ -17,7 +18,7 @@ def home(request):
             messages.success(request, "Booking Completed...")
             return redirect('home')
         
-    return render(request, 'home.html', {'records': records ,'appointments': appointments,'email_domain': email_domain,'form':form})
+    return render(request, 'home.html', {'records': records ,'appointments': appointments,'email_domain': email_domain,'email_user': email_user,'form':form})
     
 
 def login_user(request):
@@ -31,6 +32,9 @@ def login_user(request):
             messages.success(request, "You have been Logged in!!")
             email_domain = (username.split('@')[-1]).lower()
             request.session['email_domain'] = email_domain
+            email_user = username.lower()
+            request.session['email_user'] = email_user
+
             return redirect('home')
             #return render(request, 'home.html', {'email_domain': email_domain})
             
@@ -67,8 +71,8 @@ def register_user(request):
     return render(request, 'register.html', {'form':form})
 
 def staff_record(request,pk):
-    email_domain = request.session.get('email_domain', None)
-    if request.user.is_authenticated and email_domain == 'admin.com':
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
         staff_record =Record.objects.get(id = pk)
         return render(request, 'record.html', {'staff_record':staff_record},)
     else:
@@ -76,8 +80,8 @@ def staff_record(request,pk):
         return redirect('home')
 
 def delete_staff_record(request, pk):
-    email_domain = request.session.get('email_domain', None)
-    if request.user.is_authenticated and email_domain == 'admin.com':
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
         delete_record = Record.objects.get(id=pk)
         delete_record.delete()
         messages.success(request, "Record Deleted Successfully...")
@@ -88,9 +92,9 @@ def delete_staff_record(request, pk):
 
 
 def add_staff_record(request):
-    email_domain = request.session.get('email_domain', None)
     form = AddStaffRecord(request.POST or None)
-    if request.user.is_authenticated and email_domain == 'admin.com':
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
         if request.method == "POST":
             if form.is_valid():
                 add_staff_record = form.save()
@@ -105,8 +109,8 @@ def add_staff_record(request):
 
 
 def update_staff_record(request, pk):
-    email_domain = request.session.get('email_domain', None)
-    if request.user.is_authenticated and email_domain == 'admin.com':
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
         current_record = get_object_or_404(Record, id=pk)
         form = AddStaffRecord(request.POST or None, instance=current_record)
         if form.is_valid():
@@ -120,8 +124,8 @@ def update_staff_record(request, pk):
 
 
 def appointment_record(request,pk):
-    email_domain = request.session.get('email_domain', None)
-    if request.user.is_authenticated and email_domain == 'admin.com':
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
         appointment_record =Appointment.objects.get(id = pk)
         return render(request, 'appointment.html', {'appointment_record':appointment_record},)
     else:
@@ -130,8 +134,8 @@ def appointment_record(request,pk):
 
 
 def delete_appointment_record(request, pk):
-    email_domain = request.session.get('email_domain', None)
-    if request.user.is_authenticated and email_domain == 'admin.com':
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
         delete_record = Appointment.objects.get(id=pk)
         delete_record.delete()
         messages.success(request, "Record Deleted Successfully...")
@@ -142,7 +146,6 @@ def delete_appointment_record(request, pk):
 
 def appointment_register(request):
     form = AppointmentRecord(request.POST or None)
-    
     if request.method == "POST":
         if form.is_valid():
             appointment_instance = form.save(commit=False)
@@ -155,8 +158,8 @@ def appointment_register(request):
             appointment_instance.save()
             messages.success(request, "Booking Completed...")
             return redirect('home')
-
-    messages.error(request, "Booking was incomplete. Please try again later...")
-    return redirect('home')
+    else:
+        messages.error(request, "Booking was incomplete.please try again later...")
+        return redirect('home')
     
     

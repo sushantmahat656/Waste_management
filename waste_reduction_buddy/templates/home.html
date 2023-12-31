@@ -2,252 +2,234 @@
 {% block content %}
 {% load static %}
 
-  {% if user.is_authenticated and email_domain == 'admin.com' %}
+{% if user.is_authenticated and email_user == 'binod.raut@wastebuddy.com' %}
+    <p> Welcome Admin</p>
     <style>
-  body 
-  .card {
+      body .card {
+        font-family: 'Open Sans', sans-serif;
+      }
+    </style>
+
     
-    font-family: 'Open Sans', sans-serif;
-  }
-</style>
-    <p>Welcome, Admin.</p>
     <div class="card">
-      <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" id="page1-tab" data-bs-toggle="tab" href="#Records">Records</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="page2-tab" data-bs-toggle="tab" href="#Appointments">Appointments</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="page3-tab" data-bs-toggle="tab" href="#Add_Record">Add Record</a>
-          </li>
-        </ul>
-      </div>
-      <div class="card-body">
-        <div class="tab-content">
-          <div class="tab-pane fade show active" id="Records">
-            <h1>Records</h1>
-            <table class="table table-striped table-hover table-bordered border-success table-group-divider">
-              <thead class="table-success">
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">City</th>
-                  <th scope="col">State</th>
-                  <th scope="col">Zipcode</th>
-                  <th scope="col">Created At</th>
-                  <!-- <th scope="col">ID</th> -->
-                </tr>
-              </thead>
-              <tbody>
-                {% if records %}
-                  {% for record in records %}
-                    <tr>
-                      <td><a href="{% url 'record' record.id %}">{{ record.first_name }} {{ record.last_name }}</a></td>
-                      <td>{{ record.email }}</td>
-                      <td>{{ record.phone }}</td>
-                      <td>{{ record.address }}</td>
-                      <td>{{ record.city }}</td>
-                      <td>{{ record.state }}</td>
-                      <td>{{ record.zipcode }}</td>
-                      <td>{{ record.created_at }}</td>
-                      <!-- <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td> -->
-                    </tr>
-                  {% endfor %}
-                {% endif %}
-              </tbody>
-            </table>
-          </div>
-          <div class="tab-pane fade" id="Appointments">
-            <h1>Appointments</h1>
-            <table class="table table-striped table-hover table-bordered border-success table-group-divider">
-              <thead class="table-success">
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">City</th>
-                  <th scope="col">State</th>
-                  <th scope="col">Zipcode</th>
-                  <th scope="col">Created At</th>
-                  <th scope="col">Created By</th>
-
-                  <!-- <th scope="col">ID</th> -->
-                </tr>
-              </thead>
-              <tbody>
-                {% if appointments %}
-                  {% for appointment in appointments %}
-                    <tr>
-                      <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.first_name }} {{ appointment.last_name }}</td>
-                      <td>{{ appointment.email }}</td>
-                      <td>{{ appointment.phone }}</td>
-                      <td>{{ appointment.address }}</td>
-                      <td>{{ appointment.city }}</td>
-                      <td>{{ appointment.state }}</td>
-                      <td>{{ appointment.zipcode }}</td>
-                      <td>{{ appointment.created_at }}</td>
-                      <td>{{ appointment.Created_By }}</td>
-                      <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
-                    </tr>
-                  {% endfor %}
-                {% endif %}
-              </tbody>
-            </table>
-          </div>
-          <div class="tab-pane fade" id="Add_Record">
-            <!-- Content for Page 3 goes here -->
-            <p>This is the content for Page 3.</p>
-          </div>
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="page1-tab" data-bs-toggle="tab" href="#Records">Records</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="page2-tab" data-bs-toggle="tab" href="#Appointments">Appointments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="page3-tab" data-bs-toggle="tab" href="#Add_Record">Add Record</a>
+                </li>
+            </ul>
         </div>
-      </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="Records">
+                    <h1>Records</h1>
+                    <table class="table table-striped table-hover table-bordered border-success table-group-divider">
+                        <thead class="table-success">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">State</th>
+                                <th scope="col">Zipcode</th>
+                                <th scope="col">Created At</th>
+                                <!-- <th scope="col">ID</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if records %}
+                                {% for record in records %}
+                                    <tr>
+                                        <td><a href="{% url 'record' record.id %}">{{ record.first_name }} {{ record.last_name }}</a></td>
+                                        <td>{{ record.email }}</td>
+                                        <td>{{ record.phone }}</td>
+                                        <td>{{ record.address }}</td>
+                                        <td>{{ record.city }}</td>
+                                        <td>{{ record.state }}</td>
+                                        <td>{{ record.zipcode }}</td>
+                                        <td>{{ record.created_at }}</td>
+                                        <!-- <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td> -->
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="Appointments">
+                    <h1>Appointments</h1>
+                    <table class="table table-striped table-hover table-bordered border-success table-group-divider">
+                        <thead class="table-success">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">State</th>
+                                <th scope="col">Zipcode</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Created By</th>
+                                <!-- <th scope="col">ID</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if appointments %}
+                                {% for appointment in appointments %}
+                                    <tr>
+                                        <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.first_name }} {{ appointment.last_name }}</a></td>
+                                        <td>{{ appointment.email }}</td>
+                                        <td>{{ appointment.phone }}</td>
+                                        <td>{{ appointment.address }}</td>
+                                        <td>{{ appointment.city }}</td>
+                                        <td>{{ appointment.state }}</td>
+                                        <td>{{ appointment.zipcode }}</td>
+                                        <td>{{ appointment.created_at }}</td>
+                                        <td>{{ appointment.Created_By }}</td>
+                                        <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane fade" id="Add_Record">
+                    <!-- Content for Page 3 goes here -->
+                    <p>This is the content for Page 3.</p>
+                </div>
+            </div>
+        </div>
     </div>
-
-
-
+{% elif user.is_authenticated and email_domain == 'wastebuddy.com' %}
     
-  {% elif user.is_authenticated and email_domain == 'pickupman.com' %}
-    <p>Welcome! You are authenticated, but your email domain is not 'admin.com'.</p>
-    <h1>Appointments</h1>
-            <table class="table table-striped table-hover table-bordered border-success table-group-divider">
-              <thead class="table-success">
-                <tr>
-                  <th scope="col">Name</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Phone</th>
-                  <th scope="col">Address</th>
-                  <th scope="col">City</th>
-                  <th scope="col">State</th>
-                  <th scope="col">Zipcode</th>
-                  <th scope="col">Created At</th>
-                  <th scope="col">Created By</th>
-                  <!-- <th scope="col">ID</th> -->
-                </tr>
-              </thead>
-              <tbody>
-                {% if appointments %}
-                  {% for appointment in appointments %}
-                    <tr>
-                      <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.first_name }} {{ appointment.last_name }}</td>
-                      <td>{{ appointment.email }}</td>
-                      <td>{{ appointment.phone }}</td>
-                      <td>{{ appointment.address }}</td>
-                      <td>{{ appointment.city }}</td>
-                      <td>{{ appointment.state }}</td>
-                      <td>{{ appointment.zipcode }}</td>                      
-                      <td>{{ appointment.created_at }}</td>
-                      <td>{{ appointment.Created_By }}</td>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="page1-tab" data-bs-toggle="tab" href="#Appointment">Appointment</a>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="Appointment">
+                    <h1>Appointment</h1>
+                    <table class="table table-striped table-hover table-bordered border-success table-group-divider">
+                        <thead class="table-success">
+                            <tr>
 
-                      <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
-                    </tr>
-                  {% endfor %}
-                {% endif %}
-              </tbody>
-            </table>
-
-
-
-
-  {% elif user.is_authenticated %}
-  
-
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    background-image: url("{% static '/images/image1.jpg' %}");
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    overflow: auto;;
-  }
-
-  .container {
-    position: absolute;
-    z-index: 1;
-    padding: 20px;
-  }
-
-  .card {
-    position: absolute;
-    z-index: 2;
-    margin-top: 5rem;
-    font-family: 'Open Sans', sans-serif;
-  }
-</style>
-    <div class="container">
-      <div class="row justify-content-end">
-        <div class="col-md-5">
-          <div class="card" style="width: 30rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
-            <div class="card-body">
-              <h5 class="card-title text-center">Book Appointment</h5>
-              <br/>
-              <form method="POST" action="{% url 'appointment_register' %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <br/>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-success">Book Appointment</button>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                                <th scope="col">State</th>
+                                <th scope="col">Zipcode</th>
+                                <th scope="col">Created At</th>
+                                <th scope="col">Created By</th>
+                                <!-- <th scope="col">ID</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if appointments %}
+                                {% for appointment in appointments %}
+                                    <tr>
+                                        <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.first_name }} {{ appointment.last_name }}</a></td>
+                                        <td>{{ appointment.email }}</td>
+                                        <td>{{ appointment.phone }}</td>
+                                        <td>{{ appointment.address }}</td>
+                                        <td>{{ appointment.city }}</td>
+                                        <td>{{ appointment.state }}</td>
+                                        <td>{{ appointment.zipcode }}</td>
+                                        <td>{{ appointment.created_at }}</td>
+                                        <td>{{ appointment.Created_By }}</td>
+                                        <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
                 </div>
-              </form>
+    
+
+{% elif user.is_authenticated %}
+    <section class="vh-150" style="background-color: #a1dbb2;">
+
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Book Appointment</p>
+
+                <form method="POST" action="{% url 'appointment_register' %}" class="mx-1 mx-md-4">
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    
+                  </div>
+                   {% csrf_token %}
+                   {{ form.as_p }}
+                   <button type="submit" class="btn btn-success">Book Appointment</button>
+
+                </form>
+
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+
+                <img src="/static/images/image3.jpg" class="img-fluid" alt="image">
+
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</section>
+{% else %}
+<section class="vh-150" style="background-color: #a1dbb2;">
 
+  <div class="container h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-12 col-xl-11">
+        <div class="card text-black" style="border-radius: 25px;">
+          <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Book Appointment</p>
 
-  {% else %}
-  <style>
+                <form method="POST" action="{% url 'appointment_register' %}" class="mx-1 mx-md-4">
+                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    
+                  </div>
+                   {% csrf_token %}
+                   {{ form.as_p }}
+                   <button type="submit" class="btn btn-success">Book Appointment</button>
 
-  body {
-    margin: 0;
-    padding: 0;
-    background-image: url("{% static '/images/image1.jpg' %}");
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    overflow: auto;;
-  }
+                </form>
 
-  .container {
-    position: absolute;
-    z-index: 1;
-  }
+              </div>
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-  .card {
-    position: absolute;
-    z-index: 2;
-    margin-top: 5rem;
-    font-family: 'Open Sans', sans-serif;
-  }
-</style>
-    <div class="container">
-      <div class="row justify-content-end">
-        <div class="col-md-5">
-          <div class="card" style="width: 30rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
-            <div class="card-body">
-              <h5 class="card-title text-center">Book Appointment</h5>
-              <br/>
-              <form method="POST" action="{% url 'appointment_register' %}">
-                {% csrf_token %}
+                <img src="/static/images/image3.jpg" class="img-fluid" alt="image">
 
-                {{ form.as_p }}
-                <br/>
-                <div class="text-center">
-                  <button type="submit" class="btn btn-success">Book Appointment</button>
-                </div>
-              </form>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  {% endif %}
+  </div>
+</section>
+{% endif %}
 {% endblock %}

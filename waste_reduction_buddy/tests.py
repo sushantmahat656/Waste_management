@@ -4,9 +4,18 @@ from .models import Record, Appointment
 from .forms import SignUpForm, AddStaffRecord, AppointmentRecord
 from django.urls import reverse
 from django.contrib import messages
+from django.contrib.messages import get_messages
 
 class WasteManagementTests(TestCase):
     def setUp(self):
+        self.register_url = reverse('register_user')
+        self.valid_data = {
+            'email': 'test@example.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        }
+        User.objects.create_user(username='existinguser', email='existing@example.com', password='existingpassword')
+
         # Create a user for testing
         self.admin_user = User.objects.create_user(
             username='binod.raut@wastebuddy.com',
@@ -107,7 +116,7 @@ class WasteManagementTests(TestCase):
         # Check if the response is a redirect (status code 302) since regular users should not have access
         self.assertEqual(response.status_code, 302)
 
-    # Add more tests for other views...
+    
 
     def test_appointment_register_view_authenticated_user(self):
         # Log in as a normal user
@@ -127,5 +136,32 @@ class WasteManagementTests(TestCase):
 
         # Check if the response is a redirect (status code 302) since regular users should not have access
         self.assertEqual(response.status_code, 302)
+
+    
+        
+        
+    def test_register_user_success(self):
+        response = self.client.post(self.register_url, data=self.valid_data, follow=True)
+        self.assertEqual(response.status_code, 200)  # Check if the registration was successful and redirected to the login page
+
+
+    def test_register_user_email_already_in_use(self):
+        # Use an email that is already in use
+        data = {
+            'email': 'existing@example.com',
+            'password1': 'testpassword',
+            'password2': 'testpassword',
+        }
+
+        response = self.client.post(self.register_url, data=data, follow=True)
+        self.assertEqual(response.status_code, 200)  # Check if the registration form is displayed again
+
+        # Check if the user is not redirected
+        self.assertEqual(response.redirect_chain, [])
+
+        # Check if the user is not authenticated
+        self.assertFalse(response.wsgi_request.user.is_authenticated)
+
+        
 
 

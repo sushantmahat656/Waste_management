@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% load static %}
+    
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>FAQ Chat</h2>
+        </div>
+        <div class="card-body">
+            <div id="chat-container" style="height: 150px; overflow-y: auto;">
+                <!-- Previous chat messages will be displayed here -->
+                
+                <!-- Display the previous answer if available -->
+                {% if previous_answer %}
+                   <div class="previous-question-answer">
+                        <strong>Previous Question:</strong> {{ previous_question }}<br>
+                        <strong>Previous Answer:</strong> {{ previous_answer }}
+                    </div>
+                {% endif %}
+                <!-- Display the current question, previous question, and answer if available -->
+                {% if current_question %}
+                    <div class="current-question">
+                        <strong>Question:</strong> {{ current_question }}
+                    </div>
+                {% endif %}
+
+                <!-- Add this block where you want to display the chatbot response -->
+                {% if chatbot_response %}
+                    <div class="chatbot-response">
+                        <strong>Chatbot:</strong> {{ chatbot_response }}
+                    </div>
+                {% endif %}
+            </div>
+            <form id="chat-form" method="POST" action="{% url 'faq_chatbot' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="user-question" class="form-label">Enter your question:</label>
+                    <input type="text" class="form-control" name="user_question" id="user-question" required>
+                </div>
+                <button type="submit" class="btn btn-success">FAQ</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

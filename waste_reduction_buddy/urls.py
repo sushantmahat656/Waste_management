@@ -14,6 +14,7 @@ urlpatterns = [
     path('appointment_record/<int:pk>/', views.appointment_record, name='appointment_record'),
     path('delete_appointment_record/<int:pk>',views.delete_appointment_record,name='delete_appointment_record'),
     path('appointment_register/', views.appointment_register, name='appointment_register'), 
+    path('faq_chatbot/',views.faq_chatbot,name='faq_chatbot'),
 
 
      

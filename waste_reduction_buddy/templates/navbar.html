@@ -19,6 +19,9 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
+          </li>
         {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'login_user' %}">Login</a>
@@ -26,6 +29,9 @@
           
           <li class="nav-item">
             <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
           </li>
         {% endif %}
 

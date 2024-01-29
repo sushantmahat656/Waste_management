@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddStaffRecord, AppointmentRecord
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm
 from .models import Record, Appointment
 from .faq_chatbot import FAQChatbot
 
@@ -50,11 +50,6 @@ def faq_chatbot(request):
     request.session['previous_answer'] = chatbot_response
 
     return render(request, 'faq_chatbot.html', {'chatbot_response': chatbot_response, 'previous_question': previous_question, 'previous_answer': previous_answer,'current_question': user_question,})
-
-    
-
-
-
 
     
 
@@ -119,10 +114,15 @@ def staff_record(request,pk):
 def delete_staff_record(request, pk):
     email_user = request.session.get('email_user', None)
     if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
-        delete_record = Record.objects.get(id=pk)
-        delete_record.delete()
-        messages.success(request, "Record Deleted Successfully...")
-        return redirect('home')
+        if request.method == 'POST':
+            # Delete the record if the user confirmed
+            delete_record = Record.objects.get(id=pk)
+            delete_record.delete()
+            messages.success(request, "Record Deleted Successfully...")
+            return redirect('home')
+        else:
+            # Render a confirmation page if the request method is GET
+            return render(request, 'delete_confirmation_record.html', {'record_id': pk})
     else:
         messages.error(request, "You Must Be Logged In To Delete Record...")
         return redirect('home')
@@ -173,13 +173,38 @@ def appointment_record(request,pk):
 def delete_appointment_record(request, pk):
     email_user = request.session.get('email_user', None)
     if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
-        delete_record = Appointment.objects.get(id=pk)
-        delete_record.delete()
-        messages.success(request, "Record Deleted Successfully...")
-        return redirect('home')
+        if request.method == 'POST':
+            delete_record = Appointment.objects.get(id=pk)
+            delete_record.delete()
+            messages.success(request, "Record Deleted Successfully...")
+            return redirect('home')
+        else:
+            # Render a confirmation page if the request method is GET
+            return render(request, 'delete_confirmation_appointment.html', {'record_id': pk})
     else:
         messages.error(request, "You Must Be Logged In To Delete Record...")
         return redirect('home')
+
+
+
+
+
+
+def update_appointment_record(request, pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        current_record = get_object_or_404(Appointment, id=pk)
+        form = AppointmentRecord(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Record Updated...")
+            return redirect('home')
+        return render(request, 'update_appointment_record.html', {'form': form})
+    else:
+        messages.error(request, "You Must Be Logged In...")
+        return redirect('home')
+
+
 
 def appointment_register(request):
     form = AppointmentRecord(request.POST or None)
@@ -199,4 +224,19 @@ def appointment_register(request):
         messages.error(request, "Booking was incomplete.please try again later...")
         return redirect('home')
     
+def update_selected_person(request, appointment_id):
+    if request.method == 'POST':
+        appointment_instance = get_object_or_404(Appointment, id=appointment_id)
+        form = SelectedPersonUpdateForm(request.POST, instance=appointment_instance)
+        
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Selected person updated successfully.")
+        else:
+            messages.error(request, "Error updating selected person.")
+        
+        return redirect('home')
+    else:
+        messages.error(request, "Invalid request.")
+        return redirect('home')
     

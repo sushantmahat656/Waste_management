@@ -76,6 +76,8 @@
                                 <th scope="col">Zipcode</th>
                                 <th scope="col">Created At</th>
                                 <th scope="col">Created By</th>
+                                <th scope="col">Selected Person</th>
+                                <th scope="col">Appoint To</th>
                                 <!-- <th scope="col">ID</th> -->
                             </tr>
                         </thead>
@@ -92,6 +94,34 @@
                                         <td>{{ appointment.zipcode }}</td>
                                         <td>{{ appointment.created_at }}</td>
                                         <td>{{ appointment.Created_By }}</td>
+                                        <td>
+                                            {% if appointment.selected_person %}
+                                                {{ appointment.selected_person.first_name }} {{ appointment.selected_person.last_name }}
+                                            {% else %}
+                                                No selected person
+                                            {% endif %}
+                                        </td>
+                                         <td>
+                                            <form method="post" action="{% url 'update_selected_person' appointment.id %}">
+                                                {% csrf_token %}
+                                                <div class="form-group">
+                                                    <select class="form-control" id="SelectPerson" name="selected_person">
+                                                        {% if records %}
+                                                            {% for record in records %}
+                                                                <option value="{{ record.id }}">{{ record.first_name }} {{ record.last_name }}</option>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </select>
+                                                </div>
+                                                <br/>
+                                                <button type="submit" class="btn btn-danger">Save</button>
+                                            </form>
+                                           
+
+                                        </td>
+
+
+                                        
                                         <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
                                     </tr>
                                 {% endfor %}

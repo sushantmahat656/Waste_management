@@ -20,14 +20,12 @@
                    {% csrf_token %}
                    {{ form.as_p }}
                    <button type="submit" class="btn btn-success">Add Record</button>
-                   <a href="{% url 'home' %}" class="btn btn-success">Back</a>
+                   <a href="{% url 'home' %}" class="btn btn-danger">Back</a>
 
                 </form>
 
               </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="/static/images/image3.jpg" class="img-fluid" alt="image">
+              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2"><img src="/static/images/staff.png" class="img-fluid" alt="image">
 
               </div>
             </div>
@@ -40,28 +38,6 @@
 
 
 
-<!-- <div class="container">
-  <div class="col-md-5 offset-md-3">
-    <div class="card mx-auto" style="width: 25rem; background: linear-gradient(to bottom, #a1dbb2, #5a9367);">
-      <div class="card-body text-center">
-        <h5 class="card-title">Add Staff</h5>
-        <br/>
 
-<form method="POST" action="{% url 'add_staff_record' %}">
-	{% csrf_token %}
-
-	{{ form.as_p }}
-
-<br/>
-  <button type="submit" class="btn btn-success">Add Record</button>
-   <a href="{% url 'home' %}" class="btn btn-success">Back</a>
-
-</form>
- </div>
-    </div>
-  </div>
-</div>
-
-</div> -->
 
 {% endblock %}

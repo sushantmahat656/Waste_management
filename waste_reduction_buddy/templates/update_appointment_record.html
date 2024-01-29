@@ -2,6 +2,8 @@
 {% block content %}
 
 
+
+
 <section class="vh-150" style="background-color: #a1dbb2;">
 
   <div class="container h-100">
@@ -12,23 +14,22 @@
             <div class="row justify-content-center">
               <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Update Staff Record</p>
+                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Update Appointment</p>
 
                 <form method="POST" >
-                  {% csrf_token %}
+                    {% csrf_token %}
 
-                  {{ form.as_p }}
+                    {{ form.as_p }}
 
-                <br/>
-                  <button type="submit" class="btn btn-success">Update </button>
-                   <a href="{% url 'home' %}" class="btn btn-danger">Back</a>
+                  <br/>
+                    <button type="submit" class="btn btn-success">Update </button>
+                     <a href="{% url 'home' %}" class="btn btn-danger">Back</a>
 
-                </form>
-
+              </form>
               </div>
               <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
 
-                <img src="/static/images/staff.png" class="img-fluid" alt="image">
+                <img src="/static/images/image4" class="img-fluid" alt="image">
 
               </div>
             </div>
@@ -38,5 +39,7 @@
     </div>
   </div>
 </section>
+
+
 
 {% endblock %}

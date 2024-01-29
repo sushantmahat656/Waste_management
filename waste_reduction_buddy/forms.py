@@ -60,7 +60,21 @@ class AppointmentRecord(forms.ModelForm):
     state = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"State", "class":"form-control"}), label="State")
     zipcode = forms.IntegerField(required=True, widget=forms.widgets.NumberInput(attrs={"placeholder":"Zipcode", "class":"form-control"}), label="Zip Code",min_value=0)
 
+
+
     class Meta:
         model = Appointment
         fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zipcode']
         exclude = ("User",)
+        
+
+class SelectedPersonUpdateForm(forms.ModelForm):
+    selected_person = forms.ModelChoiceField(
+        queryset=Record.objects.all(),
+        widget=forms.Select(attrs={"class": "form-control"}),
+        label="Select Person"
+    )
+
+    class Meta:
+        model = Appointment
+        fields = ['selected_person']

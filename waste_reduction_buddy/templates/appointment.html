@@ -41,9 +41,10 @@
 <br/><br/>      
 <a href="{% url 'home' %}" class="btn btn-success">Back</a>
 
+
+
+<a href=" {% url 'update_appointment_record' appointment_record.id %}" class="btn btn-success">Update</a>
+
 <a href="{% url 'delete_appointment_record' appointment_record.id %}" class="btn btn-danger">Delete</a>
-
-
-
 
 {% endblock %}

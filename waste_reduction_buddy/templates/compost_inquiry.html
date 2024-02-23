@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="mb-4">
+        <!-- Section heading -->
+        <div class="card mt-4">
+            <div class="card-body">
+                <div id="chat-container" style="height: 750px;">
+                    <h2 class="h1-responsive font-weight-bold text-center my-4">Compost Inquiry</h2>
+                    <!-- Section: Contact v.2 -->
+                    <section class="mb-4">
+                        <div class="row justify-content-center mb-4">
+                            <!-- Form Section -->
+                            <div class="col-md-6">
+                                <form method="POST" action="{% url 'compost_inquiry' %}" class="mx-1 mx-md-4">
+                                    {% csrf_token %}
+                                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4"></div>
+                                    {{ form.as_p }}
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-success">Inquiry</button>
+                                    </div>
+
+                                    <br/>
+                                </form>
+                            </div>
+
+                            <!-- Contact Information Section -->
+                            <div class="container vh-150" style="background-color: #a1dbb2;">
+                                <div class="row justify-content-center mb-4">
+                                    <div class="col-md-3 text-center">
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="fas fa-map-marker-alt fa-2x"></i>
+                                                <p>Kathmandu, Nepal</p>
+                                            </li>
+                                            <li><i class="fas fa-phone mt-4 fa-2x"></i>
+                                                <p>+ 977 984154321</p>
+                                            </li>
+                                            <li><i class="fas fa-envelope mt-4 fa-2x"></i>
+                                                <p>contact@wastebuddy.com</p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

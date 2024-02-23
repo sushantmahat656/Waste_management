@@ -18,6 +18,9 @@ urlpatterns = [
     path('appointment_register/', views.appointment_register, name='appointment_register'), 
     path('faq_chatbot/',views.faq_chatbot,name='faq_chatbot'),
     path('update_selected_person/<int:appointment_id>/', update_selected_person, name='update_selected_person'),
-    
+    path('compost_inquiry/',views.compost_inquiry,name='compost_inquiry'),
+    path('compost_inquiry_record/<int:pk>/', views.compost_inquiry_record, name='compost_inquiry_record'),
+    path('update_compost_inquiry_record/<int:pk>',views.update_compost_inquiry_record,name='update_compost_inquiry_record'),
+    path('delete_compost_inquiry_record/<int:pk>',views.delete_compost_inquiry_record,name='delete_compost_inquiry_record'),
      
 ]

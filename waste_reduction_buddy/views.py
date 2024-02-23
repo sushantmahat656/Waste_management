@@ -2,14 +2,15 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm
-from .models import Record, Appointment
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm
+from .models import Record, Appointment, Compost_inquiry
 from .faq_chatbot import FAQChatbot
 
 
 def home(request):
     records = Record.objects.all()
     appointments = Appointment.objects.all()
+    inquiries = Compost_inquiry.objects.all()
     email_domain = request.session.get('email_domain', None)
     email_user = request.session.get('email_user',None)
     form = AppointmentRecord(request.POST or None)
@@ -23,11 +24,11 @@ def home(request):
 
     
         
-    return render(request, 'home.html', {'records': records ,'appointments': appointments,'email_domain': email_domain,'email_user': email_user,'form':form})
+    return render(request, 'home.html', {'records': records ,'appointments': appointments,'inquiries': inquiries ,'email_domain': email_domain,'email_user': email_user,'form':form})
 
 
 def faq_chatbot(request):
-     # Check if the user is opening the panel for the first time
+     
     if not request.session.get('has_visited_chatbot_panel', False):
         welcome_message = "Hello! I'm your WasteBuddy chatbot. Feel free to ask me any questions about WasteBuddy, like: 'What is WasteBuddy?' or 'How can I book an appointment?'"
         
@@ -186,10 +187,6 @@ def delete_appointment_record(request, pk):
         return redirect('home')
 
 
-
-
-
-
 def update_appointment_record(request, pk):
     email_user = request.session.get('email_user', None)
     if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
@@ -197,7 +194,7 @@ def update_appointment_record(request, pk):
         form = AppointmentRecord(request.POST or None, instance=current_record)
         if form.is_valid():
             form.save()
-            messages.success(request, "Record Updated...")
+            messages.success(request, "Appointment Updated...")
             return redirect('home')
         return render(request, 'update_appointment_record.html', {'form': form})
     else:
@@ -210,18 +207,15 @@ def appointment_register(request):
     form = AppointmentRecord(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            appointment_instance = form.save(commit=False)
-
-            # Check if the user is authenticated
-            if request.user.is_authenticated:
-                # If authenticated, associate the form with the logged-in user
+            appointment_instance = form.save(commit=False)            
+            if request.user.is_authenticated:                
                 appointment_instance.Created_By = request.user
 
             appointment_instance.save()
             messages.success(request, "Booking Completed...")
             return redirect('home')
     else:
-        messages.error(request, "Booking was incomplete.please try again later...")
+        messages.error(request, "Booking was incomplete.please try again ...")
         return redirect('home')
     
 def update_selected_person(request, appointment_id):
@@ -231,7 +225,7 @@ def update_selected_person(request, appointment_id):
         
         if form.is_valid():
             form.save()
-            messages.success(request, "Selected person updated successfully.")
+            messages.success(request, "Pickup man updated successfully.")
         else:
             messages.error(request, "Error updating selected person.")
         
@@ -239,4 +233,57 @@ def update_selected_person(request, appointment_id):
     else:
         messages.error(request, "Invalid request.")
         return redirect('home')
-    
+
+
+
+def compost_inquiry(request):
+    form = CompostInquiryForm()
+    if request.method == "POST":
+        form = CompostInquiryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Compost Inquiry Added Successfully.")
+            return redirect('home')
+        else:
+            messages.error(request, "Compost Inquiry was incomplete. Please enter valid information.")
+
+    return render(request, 'compost_inquiry.html', {'form': form})
+
+
+def compost_inquiry_record(request,pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        compost_inquiry_record =Compost_inquiry.objects.get(id = pk)
+        return render(request, 'compost_inquiry_record.html', {'compost_inquiry_record':compost_inquiry_record},)
+    else:
+        messages.error(request, "You must be Admin to update.")
+        return redirect('home')
+
+def update_compost_inquiry_record(request, pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        current_record = get_object_or_404(Compost_inquiry, id=pk)
+        form = CompostInquiryForm(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Inquiry Updated...")
+            return redirect('home')
+        return render(request, 'update_compost_inquiry_record.html', {'form': form})
+    else:
+        messages.error(request, "You Must Be Logged In...")
+        return redirect('home')
+
+def delete_compost_inquiry_record(request, pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        if request.method == 'POST':
+            delete_record = Compost_inquiry.objects.get(id=pk)
+            delete_record.delete()
+            messages.success(request, "Record Deleted Successfully...")
+            return redirect('home')
+        else:
+            # Render a confirmation page if the request method is GET
+            return render(request, 'delete_compost_inquiry_record.html', {'inquiries_id': pk})
+    else:
+        messages.error(request, "You Must Be Logged In To Delete Record...")
+        return redirect('home')

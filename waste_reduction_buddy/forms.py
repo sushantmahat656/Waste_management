@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Record, Appointment
+from .models import Record, Appointment, Compost_inquiry
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
@@ -51,20 +51,18 @@ class AddStaffRecord(forms.ModelForm):
         exclude = ("User",)
 
 class AppointmentRecord(forms.ModelForm):
-    first_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"First Name", "class":"form-control"}), label="First Name")
-    last_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Last Name", "class":"form-control"}), label="Last Name")
+    full_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Full Name", "class":"form-control"}), label="Full Name")    
     email = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Email", "class":"form-control"}), label="Email")
     phone = forms.IntegerField(required=True, widget=forms.widgets.NumberInput(attrs={"placeholder":"Phone", "class":"form-control"}), label="Phone")
     address = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Address", "class":"form-control"}), label="Address")
     city = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"City", "class":"form-control"}), label="City")
-    state = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"State", "class":"form-control"}), label="State")
-    zipcode = forms.IntegerField(required=True, widget=forms.widgets.NumberInput(attrs={"placeholder":"Zipcode", "class":"form-control"}), label="Zip Code",min_value=0)
 
-
+    CHOICES = [('sell', 'Sell'), ('donate', 'Donate')]
+    selling_option = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(), label='Selling Option', initial='sell')  
 
     class Meta:
         model = Appointment
-        fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'state', 'zipcode']
+        fields = ['full_name', 'email', 'phone', 'address', 'city', 'selling_option']
         exclude = ("User",)
         
 
@@ -78,3 +76,26 @@ class SelectedPersonUpdateForm(forms.ModelForm):
     class Meta:
         model = Appointment
         fields = ['selected_person']
+
+
+
+
+
+class CompostInquiryForm(forms.ModelForm):
+    full_name = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "First Name", "class": "form-control"}))
+    email = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"}))
+    phone = forms.IntegerField(widget=forms.NumberInput(attrs={"placeholder": "Phone", "class": "form-control"}))
+    quantity = forms.IntegerField(widget=forms.NumberInput(attrs={"placeholder": "Quantity in KG(Kilo Gram) ", "class": "form-control"}))
+    message = forms.CharField(widget=forms.Textarea(attrs={"placeholder": "Message Of only 200 characters are allowed...", "class": "form-control", "rows": 4}))
+
+    class Meta:
+        model = Compost_inquiry
+        fields = ['full_name', 'email', 'phone', 'quantity', 'message']
+
+    def clean_quantity(self):
+        quantity = self.cleaned_data['quantity']
+        if quantity <= 0:
+            raise forms.ValidationError("Quantity must be greater than 0.")
+        return quantity
+
+

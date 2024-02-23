@@ -13,27 +13,36 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add_staff_record' %}">Add Staff</a>
           </li>
-          
+
         {% endif %}
 
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+            <a class="nav-link" href="{% url 'compost_inquiry' %}">Composte Inquiry</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
           </li>
-        {% else %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'login_user' %}">Login</a>
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
           </li>
           
+          
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'compost_inquiry' %}">Compost Inquiry</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'login_user' %}">Login</a>
+          </li>          
           <li class="nav-item">
             <a class="nav-link" href="{% url 'register_user' %}">Register</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
-          </li>
+          
+          
         {% endif %}
 
       </ul>

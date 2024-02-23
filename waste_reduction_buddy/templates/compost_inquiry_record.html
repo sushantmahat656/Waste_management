@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Compost Inquiry Record</h1>
+<div class="card">
+  <h5 class="card-header">
+  {{ compost_inquiry_record.full_name }}</h5>
+  
+  <div class="card-body">
+
+
+
+<p class="card-text">
+<strong>Email </strong>{{ compost_inquiry_record.email }}</p>
+
+<p class="card-text">
+<strong>Phone </strong>{{ compost_inquiry_record.phone }}
+</p>
+
+<p class="card-text">
+<strong>Quantity </strong>{{ compost_inquiry_record.quantity }}</p>
+
+<p class="card-text">
+<strong>Message </strong>{{ compost_inquiry_record.message }}</p>
+
+<p class="card-text">
+<strong>Created By </strong>{{ compost_inquiry_record.Created_By }}</p>
+
+<p class="card-text">
+<strong>Create At </strong>{{ compost_inquiry_record.created_at }}</p>
+
+
+    
+    
+  </div>
+</div>
+
+<br/><br/>      
+<a href="{% url 'home' %}" class="btn btn-success">Back</a>
+
+<a href="{% url 'update_compost_inquiry_record' compost_inquiry_record.id %}" class="btn btn-success">Update</a>
+
+<a href="{% url 'delete_compost_inquiry_record' compost_inquiry_record.id %}" class="btn btn-danger">Delete</a>
+
+
+
+
+
+
+{% endblock %}

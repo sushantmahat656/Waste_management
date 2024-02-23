@@ -3,7 +3,7 @@
 <h1>Appointment Record</h1>
 <div class="card">
   <h5 class="card-header">
-  {{ appointment_record.first_name }} {{ appointment_record.last_name }}</h5>
+  {{ appointment_record.full_name }}</h5>
   
   <div class="card-body">
 
@@ -23,16 +23,12 @@
 <strong>City </strong>{{ appointment_record.city }}</p>
 
 <p class="card-text">
-<strong>State </strong>{{ appointment_record.state }}</p>
-
-<p class="card-text">
-<strong>Zipcode </strong>{{ appointment_record.zipcode }}</p>
+<strong>Option </strong>{{ appointment_record.selling_option }}</p>
 
 <p class="card-text">
 <strong>Create At </strong>{{ appointment_record.created_at }}</p>
 
-<p class="card-text">
-<strong>ID </strong>{{ appointment_record.id }}</p>
+
     
     
   </div>

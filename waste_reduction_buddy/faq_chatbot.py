@@ -9,10 +9,10 @@ class FAQChatbot:
 
 
 
-    @staticmethod
+    
     def get_answer(question):
 
-        if question.lower() in ['hi', 'hello', 'hey']:
+        if question.lower() in ['hi', 'hello', 'hey','namaste']:
             return "Hello! I'm your WasteBuddy chatbot. Feel free to ask me any questions about WasteBuddy.like:What is WasteBuddy? or  How can I book an appointment?"
 
         best_match = None

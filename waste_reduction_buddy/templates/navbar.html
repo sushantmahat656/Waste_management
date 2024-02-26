@@ -13,12 +13,18 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'add_staff_record' %}">Add Staff</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_blog' %}">Add Blog</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog_show' %}">Blog</a>
+          </li>
 
         {% endif %}
 
         {% if user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'compost_inquiry' %}">Composte Inquiry</a>
+            <a class="nav-link" href="{% url 'compost_inquiry' %}">Compost Inquiry</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
@@ -33,6 +39,9 @@
             <a class="nav-link" href="{% url 'compost_inquiry' %}">Compost Inquiry</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'blog_show' %}">Blog</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
           </li>
           <li class="nav-item">
@@ -41,6 +50,8 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'register_user' %}">Register</a>
           </li>
+
+
           
           
         {% endif %}

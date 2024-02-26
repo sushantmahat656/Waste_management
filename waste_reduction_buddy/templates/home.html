@@ -219,80 +219,40 @@
     
 
 {% elif user.is_authenticated %}
-    <section class="vh-150" >
+    <video autoplay muted loop class="img-fluid" id="videoPlayer">
+        <source src="/static/images/videorecycle.mp4" type="video/mp4">
+    </video>
 
-  <div class="container h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-12 col-xl-11">
-        <div class="card text-black" style="border-radius: 25px;">
-          <div class="card-body p-md-5">
-            <div class="row justify-content-center">
-              <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-
-                <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Book Appointment</p>
-
-                <form method="POST" action="{% url 'appointment_register' %}" class="mx-1 mx-md-4">
-                  <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                    
-                  </div>
-                   {% csrf_token %}
-                   {{ form.as_p }}
-                   <button type="submit" class="btn btn-success">Book Appointment</button>
-
-                </form>
-
-              </div>
-              <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                <img src="/static/images/image3.jpg" class="img-fluid" alt="image">
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- Button in the Middle -->
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <a href="{% url 'bookapt' %}" class="btn btn-success btn-lg">Book an Appointment</a>
     </div>
-  </div>
-</section>
+
+    <script>
+        // Get the video element
+        var video = document.getElementById('videoPlayer');
+
+        // Set playback rate to 2x
+        video.playbackRate = 3;
+    </script>
 {% else %}
-    <section class="vh-150" >
+    <video autoplay muted loop class="img-fluid" id="videoPlayer">
+        <source src="/static/images/videorecycle.mp4" type="video/mp4">
+    </video>
 
-      <div class="container h-100">
-        <div class="row d-flex justify-content-center align-items-center h-100">
-          <div class="col-lg-12 col-xl-11">
-            <div class="card text-black" style="border-radius: 25px;">
-              <div class="card-body p-md-5">
-                <div class="row justify-content-center">
-                  <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+    <!-- Button in the Middle -->
+    <div class="position-absolute top-50 start-50 translate-middle">
+        <a href="{% url 'bookapt' %}" class="btn btn-success btn-lg">Book an Appointment</a>
+    </div>
 
-                    <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Book Appointment</p>
+    <script>
+        // Get the video element
+        var video = document.getElementById('videoPlayer');
 
-                    <form method="POST" action="{% url 'appointment_register' %}" class="mx-1 mx-md-4">
-                      <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        
-                      </div>
-                       {% csrf_token %}
-                       {{ form.as_p }}
-                       <div class="text-center">
-                                        
-                       <button type="submit" class="btn btn-success">Book Appointment</button>
-                   </div>
+        // Set playback rate to 2x
+        video.playbackRate = 3;
+    </script>
 
-                    </form>
-
-                  </div>
-                  <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-
-                    <img src="/static/images/image3.jpg" class="img-fluid" alt="image">
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     
    
 

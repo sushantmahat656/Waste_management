@@ -22,5 +22,8 @@ urlpatterns = [
     path('compost_inquiry_record/<int:pk>/', views.compost_inquiry_record, name='compost_inquiry_record'),
     path('update_compost_inquiry_record/<int:pk>',views.update_compost_inquiry_record,name='update_compost_inquiry_record'),
     path('delete_compost_inquiry_record/<int:pk>',views.delete_compost_inquiry_record,name='delete_compost_inquiry_record'),
-     
+    path('blog_show/',views.blog_show,name='blog_show'),
+    path('add_blog/',views.add_blog,name='add_blog'),
+    path('bookapt/',views.bookapt,name='bookapt'),
+    
 ]

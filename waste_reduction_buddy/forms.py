@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Record, Appointment, Compost_inquiry
+from .models import Record, Appointment, Compost_inquiry,BlogPost
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
@@ -50,20 +50,23 @@ class AddStaffRecord(forms.ModelForm):
         model = Record
         exclude = ("User",)
 
+
+
 class AppointmentRecord(forms.ModelForm):
     full_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Full Name", "class":"form-control"}), label="Full Name")    
     email = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Email", "class":"form-control"}), label="Email")
     phone = forms.IntegerField(required=True, widget=forms.widgets.NumberInput(attrs={"placeholder":"Phone", "class":"form-control"}), label="Phone")
     address = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Address", "class":"form-control"}), label="Address")
-    city = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"City", "class":"form-control"}), label="City")
-
+    calendar = forms.DateField(widget=forms.widgets.DateInput(attrs={"type":"date", "class":"form-control"}), label="Date")
+    
     CHOICES = [('sell', 'Sell'), ('donate', 'Donate')]
     selling_option = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(), label='Selling Option', initial='sell')  
 
     class Meta:
         model = Appointment
-        fields = ['full_name', 'email', 'phone', 'address', 'city', 'selling_option']
+        fields = ['full_name', 'email', 'phone', 'address', 'calendar', 'selling_option']
         exclude = ("User",)
+
         
 
 class SelectedPersonUpdateForm(forms.ModelForm):
@@ -98,4 +101,13 @@ class CompostInquiryForm(forms.ModelForm):
             raise forms.ValidationError("Quantity must be greater than 0.")
         return quantity
 
+
+class BlogPostForm(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Title", "class": "form-control"}))
+    image = forms.ImageField(widget=forms.ClearableFileInput(attrs={"class": "form-control"}))
+    content = forms.CharField(widget=forms.Textarea(attrs={"placeholder": "Content", "class": "form-control", "rows": 4}))
+
+    class Meta:
+        model = BlogPost
+        fields = ['title', 'image', 'content']
 

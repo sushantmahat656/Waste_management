@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import datetime
 
 class Record(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -27,7 +28,7 @@ class Appointment(models.Model):
     email = models.CharField(max_length=150)
     phone = models.IntegerField()
     address = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
+    calendar = models.DateField(default=datetime.date.today)
     Created_By = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)    
     selected_person = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True, blank=True)
     selling_option = models.CharField(max_length=10, choices=SELLING_OPTIONS, null=True, blank=True)
@@ -48,4 +49,12 @@ class Compost_inquiry(models.Model):
     def __str__(self):
         return self.full_name
 
-    
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='images/')
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title    

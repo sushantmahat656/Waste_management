@@ -2,8 +2,8 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm
-from .models import Record, Appointment, Compost_inquiry
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm
+from .models import Record, Appointment, Compost_inquiry,BlogPost
 from .faq_chatbot import FAQChatbot
 
 
@@ -216,7 +216,7 @@ def appointment_register(request):
             return redirect('home')
     else:
         messages.error(request, "Booking was incomplete.please try again ...")
-        return redirect('home')
+        return render(request, 'bookappointment.html')
     
 def update_selected_person(request, appointment_id):
     if request.method == 'POST':
@@ -279,7 +279,7 @@ def delete_compost_inquiry_record(request, pk):
         if request.method == 'POST':
             delete_record = Compost_inquiry.objects.get(id=pk)
             delete_record.delete()
-            messages.success(request, "Record Deleted Successfully...")
+            messages.success(request, "Inquiry Deleted Successfully...")
             return redirect('home')
         else:
             # Render a confirmation page if the request method is GET
@@ -287,3 +287,25 @@ def delete_compost_inquiry_record(request, pk):
     else:
         messages.error(request, "You Must Be Logged In To Delete Record...")
         return redirect('home')
+
+
+def blog_show(request):
+    email_user = request.session.get('email_user', None)
+    posts = BlogPost.objects.all()
+    return render(request, 'blog.html', {'posts': posts,'email_user': email_user})
+
+
+def add_blog(request):
+    if request.method == 'POST':
+        form = BlogPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('blog_show')
+    else:
+        form = BlogPostForm()
+    return render(request, 'add_blog.html', {'form': form})
+
+
+def bookapt(request):
+    form = AppointmentRecord(request.POST or None)
+    return render(request, 'bookappointment.html',{'form': form})

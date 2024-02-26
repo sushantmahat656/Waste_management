@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MinLengthValidator,RegexValidator
+from django.core.exceptions import ValidationError
 import datetime
 
 class Record(models.Model):
@@ -17,6 +19,10 @@ class Record(models.Model):
         return f"{self.first_name} {self.last_name}"
 
 
+from django.core.validators import MinLengthValidator, RegexValidator
+from django.db import models
+from datetime import datetime
+
 class Appointment(models.Model):
     SELLING_OPTIONS = [
         ('sell', 'Sell'),
@@ -26,15 +32,16 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     full_name = models.CharField(max_length=100)
     email = models.CharField(max_length=150)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=15, validators=[MinLengthValidator(10), RegexValidator(r'^[0-9]*$', message='Phone number must contain only digits.')])
     address = models.CharField(max_length=100)
-    calendar = models.DateField(default=datetime.date.today)
+    calendar = models.DateField(default=datetime.today)
     Created_By = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)    
     selected_person = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True, blank=True)
     selling_option = models.CharField(max_length=10, choices=SELLING_OPTIONS, null=True, blank=True)
 
     def __str__(self):
         return f"{self.full_name}"
+
 
 
 class Compost_inquiry(models.Model):

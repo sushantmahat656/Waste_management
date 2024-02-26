@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
 from .models import Record, Appointment, Compost_inquiry,BlogPost
+from datetime import date, timedelta
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email Address'}))
@@ -55,9 +56,9 @@ class AddStaffRecord(forms.ModelForm):
 class AppointmentRecord(forms.ModelForm):
     full_name = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Full Name", "class":"form-control"}), label="Full Name")    
     email = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Email", "class":"form-control"}), label="Email")
-    phone = forms.IntegerField(required=True, widget=forms.widgets.NumberInput(attrs={"placeholder":"Phone", "class":"form-control"}), label="Phone")
+    phone = forms.CharField(required=True, min_length=10, widget=forms.widgets.TextInput(attrs={"placeholder":"Phone", "class":"form-control"}), label="Phone")
     address = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"Address", "class":"form-control"}), label="Address")
-    calendar = forms.DateField(widget=forms.widgets.DateInput(attrs={"type":"date", "class":"form-control"}), label="Date")
+    calendar = forms.DateField(widget=forms.widgets.DateInput(attrs={"type":"date", "class":"form-control", "id":"id_calendar"}), label="Date")
     
     CHOICES = [('sell', 'Sell'), ('donate', 'Donate')]
     selling_option = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect(), label='Selling Option', initial='sell')  
@@ -66,6 +67,21 @@ class AppointmentRecord(forms.ModelForm):
         model = Appointment
         fields = ['full_name', 'email', 'phone', 'address', 'calendar', 'selling_option']
         exclude = ("User",)
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if len(phone) < 10:
+            raise ValidationError("Phone number must be at least 10 characters long.")
+        elif len(phone) > 16:
+            raise ValidationError("Phone number must be at most 16 characters long.")
+        return phone
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Set min and max dates for calendar widget
+        today = date.today()
+        self.fields['calendar'].widget.attrs['min'] = today.strftime('%Y-%m-%d')
+        self.fields['calendar'].widget.attrs['max'] = (today + timedelta(days=60)).strftime('%Y-%m-%d')
 
         
 

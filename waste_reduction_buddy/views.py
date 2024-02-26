@@ -214,9 +214,9 @@ def appointment_register(request):
             appointment_instance.save()
             messages.success(request, "Booking Completed...")
             return redirect('home')
-    else:
-        messages.error(request, "Booking was incomplete.please try again ...")
-        return render(request, 'bookappointment.html')
+        else:
+            messages.error(request, "Booking was incomplete. Please try again ...")
+    return render(request, 'bookappointment.html', {'form': form})
     
 def update_selected_person(request, appointment_id):
     if request.method == 'POST':

@@ -28,14 +28,15 @@ def home(request):
 
 
 def faq_chatbot(request):
-     
+     # Check if the user is opening the panel for the first time
     if not request.session.get('has_visited_chatbot_panel', False):
         welcome_message = "Hello! I'm your WasteBuddy chatbot. Feel free to ask me any questions about WasteBuddy, like: 'What is WasteBuddy?' or 'How can I book an appointment?'"
-        
+
         # Store the fact that the user has visited the chatbot panel
         request.session['has_visited_chatbot_panel'] = True
 
         return render(request, 'faq_chatbot.html', {'chatbot_response': welcome_message})
+
     # Get user's question from the form
     user_question = request.POST.get('user_question', '')
 
@@ -45,10 +46,12 @@ def faq_chatbot(request):
 
     # Get chatbot response
     chatbot_response = FAQChatbot.get_answer(user_question)
+    print(user_question)
 
-    # Store the current question and chatbot response as the previous question and answer in the session
+    # Store the current question and chatbot response as the previous question and answer in the sesssion
     request.session['previous_question'] = user_question
     request.session['previous_answer'] = chatbot_response
+
 
     return render(request, 'faq_chatbot.html', {'chatbot_response': chatbot_response, 'previous_question': previous_question, 'previous_answer': previous_answer,'current_question': user_question,})
 

@@ -71,7 +71,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
-                                <th scope="col">City</th>
+                                <th scope="col">Requested Date</th>
                                 <th scope="col">Option</th>                                
                                 <th scope="col">Created At</th>
                                 <th scope="col">Created By</th>                                
@@ -88,7 +88,7 @@
                                         <td>{{ appointment.email }}</td>
                                         <td>{{ appointment.phone }}</td>
                                         <td>{{ appointment.address }}</td>
-                                        <td>{{ appointment.city }}</td>
+                                        <td>{{ appointment.calendar }}</td>
                                         <td>{{ appointment.selling_option }}</td>                                       
                                         <td>{{ appointment.created_at }}</td>
                                         <td>{{ appointment.Created_By }}</td>
@@ -223,17 +223,17 @@
         <source src="/static/images/videorecycle.mp4" type="video/mp4">
     </video>
 
-    <!-- Button in the Middle -->
+    
     <div class="position-absolute top-50 start-50 translate-middle">
         <a href="{% url 'bookapt' %}" class="btn btn-success btn-lg">Book an Appointment</a>
     </div>
 
     <script>
-        // Get the video element
+        
         var video = document.getElementById('videoPlayer');
 
-        // Set playback rate to 2x
-        video.playbackRate = 3;
+        
+        video.playbackRate = 4;
     </script>
 {% else %}
     <video autoplay muted loop class="img-fluid" id="videoPlayer">
@@ -250,7 +250,7 @@
         var video = document.getElementById('videoPlayer');
 
         
-        video.playbackRate = 4;
+        video.playbackRate = 3;
     </script>
 
     

@@ -33,4 +33,3 @@ class FAQChatbot:
 # Example usage:
 # question = "What is WasteBuddy?"
 # answer = FAQChatbot.get_answer(question)
-

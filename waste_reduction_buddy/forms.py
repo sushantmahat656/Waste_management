@@ -46,10 +46,11 @@ class AddStaffRecord(forms.ModelForm):
     city = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"City", "class":"form-control"}), label="City")
     state = forms.CharField(required=True, widget=forms.widgets.TextInput(attrs={"placeholder":"State", "class":"form-control"}), label="State")
     zipcode = forms.IntegerField(required=True, widget=forms.widgets.NumberInput(attrs={"placeholder":"Zipcode", "class":"form-control"}), label="Zipcode",min_value=0)
+    password = forms.CharField(widget=forms.widgets.PasswordInput(attrs={"placeholder":"Password", "class":"form-control"}), label="Password")
 
     class Meta:
         model = Record
-        exclude = ("User",)
+        fields = '__all__'  
 
 
 

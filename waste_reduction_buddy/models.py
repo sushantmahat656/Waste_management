@@ -1,27 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinLengthValidator,RegexValidator
-from django.core.exceptions import ValidationError
-import datetime
+from django.core.validators import MinLengthValidator, RegexValidator
+from datetime import date
 
 class Record(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)  # Add a field to track when the record was last updated
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.CharField(max_length=150)
+    email = models.CharField(max_length=150, unique=True)  # Ensure email is unique across records
     phone = models.CharField(max_length=20)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     zipcode = models.IntegerField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, default=None)  # Add a ForeignKey field to associate each record with a user
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
+    def get_full_address(self):
+        return f"{self.address}, {self.city}, {self.state} {self.zipcode}"
 
-from django.core.validators import MinLengthValidator, RegexValidator
-from django.db import models
-from datetime import datetime
 
 class Appointment(models.Model):
     SELLING_OPTIONS = [
@@ -34,7 +34,7 @@ class Appointment(models.Model):
     email = models.CharField(max_length=150)
     phone = models.CharField(max_length=15, validators=[MinLengthValidator(10), RegexValidator(r'^[0-9]*$', message='Phone number must contain only digits.')])
     address = models.CharField(max_length=100)
-    calendar = models.DateField(default=datetime.today)
+    calendar = models.DateField(default=date.today)  # Use date.today() for the default value
     Created_By = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)    
     selected_person = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True, blank=True)
     selling_option = models.CharField(max_length=10, choices=SELLING_OPTIONS, null=True, blank=True)

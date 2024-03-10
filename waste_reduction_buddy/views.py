@@ -5,6 +5,8 @@ from django.contrib import messages
 from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm
 from .models import Record, Appointment, Compost_inquiry,BlogPost
 from .faq_chatbot import FAQChatbot
+from django.contrib.auth.models import User
+
 
 
 def home(request):
@@ -106,6 +108,7 @@ def register_user(request):
 
     return render(request, 'register.html', {'form':form})
 
+
 def staff_record(request,pk):
     email_user = request.session.get('email_user', None)
     if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
@@ -133,18 +136,20 @@ def delete_staff_record(request, pk):
 
 
 def add_staff_record(request):
-    form = AddStaffRecord(request.POST or None)
-    email_user = request.session.get('email_user', None)
-    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
-        if request.method == "POST":
-            if form.is_valid():
-                add_staff_record = form.save()
-                messages.success(request, "Record Added...")
-                return redirect('home')
-        return render(request, 'add_staff_record.html', {'form':form})
+    if request.method == 'POST':
+        form = AddStaffRecord(request.POST)
+        if form.is_valid():
+            # Create a new user
+            user = User.objects.create_user(username=form.cleaned_data['email'], email=form.cleaned_data['email'], password=form.cleaned_data['password'])
+            # Save the staff record
+            staff_record = form.save(commit=False)
+            staff_record.save()
+            # Render the registration page again with an empty form
+            form = AddStaffRecord()
+            return render(request, 'add_staff_record.html', {'form': form, 'registration_success': True})
     else:
-        messages.error(request, "You Must Be Logged In...")
-        return redirect('home')
+        form = AddStaffRecord()
+    return render(request, 'add_staff_record.html', {'form': form})
 
 
 

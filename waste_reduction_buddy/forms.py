@@ -121,7 +121,7 @@ class CompostInquiryForm(forms.ModelForm):
 class BlogPostForm(forms.ModelForm):
     title = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Title", "class": "form-control"}))
     image = forms.ImageField(widget=forms.ClearableFileInput(attrs={"class": "form-control"}))
-    content = forms.CharField(widget=forms.Textarea(attrs={"placeholder": "Content", "class": "form-control", "rows": 4}))
+    content = forms.CharField(widget=forms.Textarea(attrs={"placeholder": "Content", "class": "form-control summernote", "rows": 4}))
 
     class Meta:
         model = BlogPost

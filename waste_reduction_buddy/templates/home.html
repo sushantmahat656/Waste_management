@@ -3,14 +3,15 @@
 {% load static %}
 
 {% if user.is_authenticated and email_user == 'binod.raut@wastebuddy.com' %}
-    <strong><p> Welcome Admin</p></strong>
+    <strong>
+        <p>Welcome Admin</p>
+    </strong>
     <style>
-      body .card {
-        font-family: 'Open Sans', sans-serif;
-      }
+        body .card {
+            font-family: 'Open Sans', sans-serif;
+        }
     </style>
 
-    
     <div class="card">
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
@@ -72,9 +73,9 @@
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">Requested Date</th>
-                                <th scope="col">Option</th>                                
+                                <th scope="col">Option</th>
                                 <th scope="col">Created At</th>
-                                <th scope="col">Created By</th>                                
+                                <th scope="col">Created By</th>
                                 <th scope="col">Selected Person</th>
                                 <th scope="col">Appoint To</th>
                                 <!-- <th scope="col">ID</th> -->
@@ -85,11 +86,14 @@
                                 {% for appointment in appointments %}
                                     <tr>
                                         <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.full_name }}</a></td>
-                                        <td>{{ appointment.email }}</td>
+                                        <td>
+                                            {{ appointment.email }}
+                                            <a href="mailto:{{ appointment.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a>
+                                        </td>
                                         <td>{{ appointment.phone }}</td>
                                         <td>{{ appointment.address }}</td>
                                         <td>{{ appointment.calendar }}</td>
-                                        <td>{{ appointment.selling_option }}</td>                                       
+                                        <td>{{ appointment.selling_option }}</td>
                                         <td>{{ appointment.created_at }}</td>
                                         <td>{{ appointment.Created_By }}</td>
                                         <td>
@@ -99,7 +103,7 @@
                                                 <span class="text-danger">No person Appointed (Please Appoint a Pickup man)</span>
                                             {% endif %}
                                         </td>
-                                         <td>
+                                        <td>
                                             <form method="post" action="{% url 'update_selected_person' appointment.id %}">
                                                 {% csrf_token %}
                                                 <div class="form-group">
@@ -111,10 +115,10 @@
                                                         {% endif %}
                                                     </select>
                                                 </div>
-                                                <br/>
+                                                <br />
                                                 <button type="submit" class="btn btn-danger">Save</button>
-                                            </form>       
-                                        </td>            
+                                            </form>
+                                        </td>
                                         <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
                                     </tr>
                                 {% endfor %}
@@ -127,13 +131,13 @@
                     <table class="table table-striped table-hover table-bordered border-success table-group-divider">
                         <thead class="table-success">
                             <tr>
-                                <th scope="col">Name</th>                                
+                                <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Quantity</th>
                                 <th scope="col">Message</th>
                                 <th scope="col">Created_By</th>
-                                <th scope="col">Created_at</th>                              
+                                <th scope="col">Created_at</th>
                                 <!-- <th scope="col">ID</th> -->
                             </tr>
                         </thead>
@@ -142,12 +146,15 @@
                                 {% for inquirie in inquiries %}
                                     <tr>
                                         <td><a href="{% url 'compost_inquiry_record' inquirie.id %}">{{ inquirie.full_name }}</a></td>
-                                        <td>{{ inquirie.email }}</td>
+                                        <td>{{ inquirie.email }}
+                                            <a href="mailto:{{ inquirie.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a>
+
+                                        </td>
                                         <td>{{ inquirie.phone }}</td>
                                         <td>{{ inquirie.quantity }}</td>
                                         <td>{{ inquirie.message }}</td>
                                         <td>{{ inquirie.Created_By }}</td>
-                                        <td>{{ inquirie.created_at }}</td>    
+                                        <td>{{ inquirie.created_at }}</td>
                                     </tr>
                                 {% endfor %}
                             {% endif %}
@@ -165,7 +172,6 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="page1-tab" data-bs-toggle="tab" href="#Appointment">Appointment</a>
                 </li>
-                
             </ul>
         </div>
         <div class="card-body">
@@ -175,30 +181,28 @@
                     <table class="table table-striped table-hover table-bordered border-success table-group-divider">
                         <thead class="table-success">
                             <tr>
-
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">City</th>
-                                <th scope="col">Option</th>                                
+                                <th scope="col">Option</th>
                                 <th scope="col">Created At</th>
-                                <th scope="col">Created By</th>                                
-                                <th scope="col">Selected Person</th>                                
+                                <th scope="col">Created By</th>
+                                <th scope="col">Selected Person</th>
                                 <!-- <th scope="col">ID</th> -->
-                                
-                                
                             </tr>
                         </thead>
                         <tbody>
                             {% if appointments %}
                                 {% for appointment in appointments %}
-                                    <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.full_name }}</a></td>
+                                    <tr>
+                                        <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.full_name }}</a></td>
                                         <td>{{ appointment.email }}</td>
                                         <td>{{ appointment.phone }}</td>
                                         <td>{{ appointment.address }}</td>
                                         <td>{{ appointment.city }}</td>
-                                        <td>{{ appointment.selling_option }}</td>                                       
+                                        <td>{{ appointment.selling_option }}</td>
                                         <td>{{ appointment.created_at }}</td>
                                         <td>{{ appointment.Created_By }}</td>
                                         <td>
@@ -208,53 +212,72 @@
                                                 <span class="text-danger">No person Appointed (Please Appoint a Pickup man)</span>
                                             {% endif %}
                                         </td>
-                                        
-                                        <!-- <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.id }}</a></td> -->
                                     </tr>
                                 {% endfor %}
                             {% endif %}
                         </tbody>
                     </table>
                 </div>
-    
-
+            </div>
+        </div>
+    </div>
 {% elif user.is_authenticated %}
-    <video autoplay muted loop class="img-fluid" id="videoPlayer">
-        <source src="/static/images/videorecycle.mp4" type="video/mp4">
-    </video>
+    <div class="position-relative">
+        <video autoplay muted loop class="img-fluid blur-video" id="videoPlayer">
+            <source src="/static/images/videorecycle.mp4" type="video/mp4">
+        </video>
 
-    
-    <div class="position-absolute top-50 start-50 translate-middle">
-        <a href="{% url 'bookapt' %}" class="btn btn-success btn-lg">Book an Appointment</a>
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <a href="{% url 'bookapt' %}" class="btn btn-success btn-lg btn-pop">Book an Appointment</a>
+        </div>
     </div>
 
-    <script>
-        
-        var video = document.getElementById('videoPlayer');
+    <style>
+        .blur-video {
+            filter: blur(3px); 
+        }
 
-        
+        .btn-pop {
+            transition: transform 0.3s ease; 
+        }
+
+        .btn-pop:hover {
+            transform: scale(1.1); /
+        }
+    </style>
+
+    <script>
+        var video = document.getElementById('videoPlayer');
         video.playbackRate = 4;
     </script>
 {% else %}
-    <video autoplay muted loop class="img-fluid" id="videoPlayer">
-        <source src="/static/images/videorecycle.mp4" type="video/mp4">
-    </video>
+    <div class="position-relative">
+        <video autoplay muted loop class="img-fluid blur-video" id="videoPlayer">
+            <source src="/static/images/videorecycle.mp4" type="video/mp4">
+        </video>
 
-    
-    <div class="position-absolute top-50 start-50 translate-middle">
-        <a href="{% url 'bookapt' %}" class="btn btn-success btn-lg">Book an Appointment</a>
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <a href="{% url 'bookapt' %}" class="btn btn-success btn-lg btn-pop">Book an Appointment</a>
+        </div>
     </div>
 
+    <style>
+        .blur-video {
+            filter: blur(3px); /* blur effect */
+        }
+
+        .btn-pop {
+            transition: transform 0.3s ease; /* transition effect */
+        }
+
+        .btn-pop:hover {
+            transform: scale(1.1); /* pop effect */
+        }
+    </style>
+
     <script>
-        
         var video = document.getElementById('videoPlayer');
-
-        
-        video.playbackRate = 3;
+        video.playbackRate = 4;
     </script>
-
-    
-   
-
 {% endif %}
 {% endblock %}

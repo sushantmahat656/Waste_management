@@ -33,14 +33,13 @@
                     <table class="table table-striped table-hover table-bordered border-success table-group-divider">
                         <thead class="table-success">
                             <tr>
-                                <th scope="col">Name</th>
+                                <th scope="col">Full Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
-                                <th scope="col">City</th>
-                                <th scope="col">State</th>
-                                <th scope="col">Zipcode</th>
+                                <th scope="col">NIN</th>
                                 <th scope="col">Created At</th>
+                                <th scope="col">Created By</th>
                                 <!-- <th scope="col">ID</th> -->
                             </tr>
                         </thead>
@@ -48,14 +47,13 @@
                             {% if records %}
                                 {% for record in records %}
                                     <tr>
-                                        <td><a href="{% url 'record' record.id %}">{{ record.first_name }} {{ record.last_name }}</a></td>
+                                        <td><a href="{% url 'record' record.id %}">{{ record.full_name }}</a></td>
                                         <td>{{ record.email }}</td>
                                         <td>{{ record.phone }}</td>
                                         <td>{{ record.address }}</td>
-                                        <td>{{ record.city }}</td>
-                                        <td>{{ record.state }}</td>
-                                        <td>{{ record.zipcode }}</td>
+                                        <td>{{ record.nin }}</td>
                                         <td>{{ record.created_at }}</td>
+                                        <td>{{ record.user }}</td>
                                         <!-- <td><a href="{% url 'record' record.id %}">{{ record.id }}</a></td> -->
                                     </tr>
                                 {% endfor %}
@@ -70,12 +68,12 @@
                             <tr>
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
-                                <th scope="col">Phone</th>
-                                <th scope="col">Address</th>
+                                <!-- <th scope="col">Phone</th>
+                                <th scope="col">Address</th> -->
                                 <th scope="col">Requested Date</th>
                                 <th scope="col">Option</th>
-                                <th scope="col">Created At</th>
-                                <th scope="col">Created By</th>
+                                <!-- <th scope="col">Created At</th>
+                                <th scope="col">Created By</th> -->
                                 <th scope="col">Selected Person</th>
                                 <th scope="col">Appoint To</th>
                                 <!-- <th scope="col">ID</th> -->
@@ -90,15 +88,15 @@
                                             {{ appointment.email }}
                                             <a href="mailto:{{ appointment.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a>
                                         </td>
-                                        <td>{{ appointment.phone }}</td>
-                                        <td>{{ appointment.address }}</td>
+                                        <!-- <td>{{ appointment.phone }}</td>
+                                        <td>{{ appointment.address }}</td> -->
                                         <td>{{ appointment.calendar }}</td>
                                         <td>{{ appointment.selling_option }}</td>
-                                        <td>{{ appointment.created_at }}</td>
-                                        <td>{{ appointment.Created_By }}</td>
+                                        <!-- <td>{{ appointment.created_at }}</td>
+                                        <td>{{ appointment.Created_By }}</td> -->
                                         <td>
                                             {% if appointment.selected_person %}
-                                                {{ appointment.selected_person.first_name }} {{ appointment.selected_person.last_name }}
+                                                {{ appointment.selected_person.full_name }}
                                             {% else %}
                                                 <span class="text-danger">No person Appointed (Please Appoint a Pickup man)</span>
                                             {% endif %}
@@ -110,7 +108,7 @@
                                                     <select class="form-control" id="SelectPerson" name="selected_person">
                                                         {% if records %}
                                                             {% for record in records %}
-                                                                <option value="{{ record.id }}">{{ record.first_name }} {{ record.last_name }}</option>
+                                                                <option value="{{ record.id }}">{{ record.full_name }} </option>
                                                             {% endfor %}
                                                         {% endif %}
                                                     </select>

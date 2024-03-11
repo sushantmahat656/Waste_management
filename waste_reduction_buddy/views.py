@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm,UpdateStaffRecordForm
 from .models import Record, Appointment, Compost_inquiry,BlogPost
 from .faq_chatbot import FAQChatbot
 from django.contrib.auth.models import User
@@ -87,26 +88,7 @@ def logout_user(request):
     messages.success(request, "You have been Logged out ...")
     return redirect('home')
 
-def register_user(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            try:
-                form.save()
-                # Authentication
-                email = form.cleaned_data['email']
-                password = form.cleaned_data['password1']
-                user = authenticate(request, username=email, password=password)
-                messages.success(request, "You have successfully registered.")
-                email_domain = (email.split('@')[-1]).lower()
-                request.session['email_domain'] = email_domain
-                return redirect('login_user')
-            except IntegrityError:
-                messages.error(request, "This email address is already in use. Please use a different email.")
-    else:
-        form = SignUpForm()
 
-    return render(request, 'register.html', {'form':form})
 
 
 def staff_record(request,pk):
@@ -135,22 +117,55 @@ def delete_staff_record(request, pk):
         return redirect('home')
 
 
+
+def register_user(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+                # Authentication
+                email = form.cleaned_data['email']
+                password = form.cleaned_data['password1']
+                user = authenticate(request, username=email, password=password)
+                messages.success(request, "You have successfully registered.")
+                email_domain = (email.split('@')[-1]).lower()
+                request.session['email_domain'] = email_domain
+                return redirect('login_user')
+            except IntegrityError:
+                messages.error(request, "This email address is already in use. Please use a different email.")
+    else:
+        form = SignUpForm()
+
+    return render(request, 'register.html', {'form':form})
+
+@login_required
 def add_staff_record(request):
     if request.method == 'POST':
         form = AddStaffRecord(request.POST)
         if form.is_valid():
-            # Create a new user
-            user = User.objects.create_user(username=form.cleaned_data['email'], email=form.cleaned_data['email'], password=form.cleaned_data['password'])
             # Save the staff record
-            staff_record = form.save(commit=False)
-            staff_record.save()
-            # Render the registration page again with an empty form
-            form = AddStaffRecord()
-            return render(request, 'add_staff_record.html', {'form': form, 'registration_success': True})
+            record = form.save(commit=False)
+            record.user = request.user
+            record.save()
+
+            # Create a new user
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
+            user = User.objects.create_user(username=email, email=email, password=password)
+
+            if user is not None:
+                messages.success(request, "Staff Successfully added.")
+                # Set session data
+                email_domain = email.split('@')[-1].lower()
+                request.session['email_domain'] = email_domain
+                return redirect('home')
+            else:
+                messages.error(request, "Failed to create user.")
     else:
         form = AddStaffRecord()
-    return render(request, 'add_staff_record.html', {'form': form})
 
+    return render(request, 'add_staff_record.html', {'form': form})
 
 
 
@@ -158,7 +173,7 @@ def update_staff_record(request, pk):
     email_user = request.session.get('email_user', None)
     if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
         current_record = get_object_or_404(Record, id=pk)
-        form = AddStaffRecord(request.POST or None, instance=current_record)
+        form = UpdateStaffRecordForm(request.POST or None, instance=current_record)
         if form.is_valid():
             form.save()
             messages.success(request, "Record Updated...")

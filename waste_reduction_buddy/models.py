@@ -1,26 +1,37 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,AbstractUser
 from django.core.validators import MinLengthValidator, RegexValidator
 from datetime import date
 
-class Record(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)  # Add a field to track when the record was last updated
-    first_name = models.CharField(max_length=50)
-    last_name = models.CharField(max_length=50)
-    email = models.CharField(max_length=150, unique=True)  # Ensure email is unique across records
+class Record(AbstractUser):
+    full_name = models.CharField(max_length=100, default=None)
+    email = models.CharField(max_length=150)
     phone = models.CharField(max_length=20)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=50)
-    state = models.CharField(max_length=50)
-    zipcode = models.IntegerField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, default=None)  # Add a ForeignKey field to associate each record with a user
+    address = models.CharField(max_length=255)
+    nin = models.CharField(max_length=20)
+
+    # Specify custom related names for groups and user_permissions
+    groups = models.ManyToManyField(
+        'auth.Group',
+        related_name='record_groups',
+        blank=True,
+        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
+        verbose_name='groups',
+    )
+    user_permissions = models.ManyToManyField(
+        'auth.Permission',
+        related_name='record_user_permissions',
+        blank=True,
+        help_text='Specific permissions for this user.',
+        verbose_name='user permissions',
+    )
+
+    # Make username nullable
+    username = models.CharField(max_length=150, unique=True, null=True)
+    password = models.CharField(max_length=128, default='')
 
     def __str__(self):
-        return f"{self.first_name} {self.last_name}"
-
-    def get_full_address(self):
-        return f"{self.address}, {self.city}, {self.state} {self.zipcode}"
+        return self.full_name
 
 
 class Appointment(models.Model):

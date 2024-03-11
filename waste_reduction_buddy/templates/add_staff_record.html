@@ -13,10 +13,7 @@
                                 <form method="POST" action="{% url 'add_staff_record' %}" class="mx-1 mx-md-4">
                                     {% csrf_token %}
                                     {{ form.as_p }}
-                                    <div class="mb-3">
-                                        <label for="id_password" class="form-label">Password</label>
-                                        <input type="password" name="password" class="form-control" id="id_password" placeholder="Password">
-                                    </div>
+                                    
                                     <button type="submit" class="btn btn-success">Add Record</button>
                                     <a href="{% url 'home' %}" class="btn btn-danger">Back</a>
                                 </form>

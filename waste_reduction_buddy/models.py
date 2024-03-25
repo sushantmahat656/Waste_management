@@ -2,12 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User,AbstractUser
 from django.core.validators import MinLengthValidator, RegexValidator
 from datetime import date
+from datetime import datetime
 
 class Record(AbstractUser):
     full_name = models.CharField(max_length=100, default=None)
     email = models.CharField(max_length=150)
     phone = models.CharField(max_length=20)
     address = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True,null=True)    
     nin = models.CharField(max_length=20)
 
     # Specify custom related names for groups and user_permissions
@@ -36,8 +38,8 @@ class Record(AbstractUser):
 
 class Appointment(models.Model):
     SELLING_OPTIONS = [
-        ('sell', 'Sell'),
-        ('donate', 'Donate'),
+        ('SELL', 'Sell'),
+        ('DONATE', 'Donate'),
     ]
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -45,7 +47,8 @@ class Appointment(models.Model):
     email = models.CharField(max_length=150)
     phone = models.CharField(max_length=15, validators=[MinLengthValidator(10), RegexValidator(r'^[0-9]*$', message='Phone number must contain only digits.')])
     address = models.CharField(max_length=100)
-    calendar = models.DateField(default=date.today)  # Use date.today() for the default value
+    calendar = models.DateField(default=date.today)
+    appointment_time = models.TimeField(default=datetime.now().time())  
     Created_By = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)    
     selected_person = models.ForeignKey(Record, on_delete=models.SET_NULL, null=True, blank=True)
     selling_option = models.CharField(max_length=10, choices=SELLING_OPTIONS, null=True, blank=True)
@@ -75,4 +78,15 @@ class BlogPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title    
+        return self.title
+
+class Contact_Us(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    Created_By = models.ForeignKey(User,on_delete=models.CASCADE,null=True, default =None)
+    full_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=50)
+    phone = models.IntegerField()
+    message = models.TextField(max_length=200)
+
+    def __str__(self):
+        return self.full_name

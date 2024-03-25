@@ -19,7 +19,9 @@
                         <p>{{ post.content }}</p>
                         {% if user.is_authenticated and email_user == 'binod.raut@wastebuddy.com' %}
                         <div class="text-center">
-                            <a href="#" class="btn btn-success">Edit</a>
+                            <a href="{% url 'update_blog' post.id%}" class="btn btn-success">Edit</a>
+                        
+                            <a href="{% url 'delete_blog' post.id %}" class="btn btn-danger">Delete</a>
                         </div>
                         {% endif %}
                       </div>

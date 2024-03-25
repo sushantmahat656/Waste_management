@@ -19,10 +19,13 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'blog_show' %}">Blog</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+          </li>
 
-        {% endif %}
+        
 
-        {% if user.is_authenticated %}
+        {% elif user.is_authenticated  %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'compost_inquiry' %}">Compost Inquiry</a>
           </li>

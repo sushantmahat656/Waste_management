@@ -13,6 +13,7 @@ urlpatterns = [
     path('update_staff_record/<int:pk>',views.update_staff_record,name='update_staff_record'),
     path('add_staff_record/', views.add_staff_record, name='add_staff_record'),
     path('appointment_record/<int:pk>/', views.appointment_record, name='appointment_record'),
+    path('bookapt/',views.bookapt,name='bookapt'),
     path('delete_appointment_record/<int:pk>',views.delete_appointment_record,name='delete_appointment_record'),
     path('update_appointment_record/<int:pk>',views.update_appointment_record,name='update_appointment_record'),
     path('appointment_register/', views.appointment_register, name='appointment_register'), 
@@ -24,6 +25,8 @@ urlpatterns = [
     path('delete_compost_inquiry_record/<int:pk>',views.delete_compost_inquiry_record,name='delete_compost_inquiry_record'),
     path('blog_show/',views.blog_show,name='blog_show'),
     path('add_blog/',views.add_blog,name='add_blog'),
-    path('bookapt/',views.bookapt,name='bookapt'),
+    path('update_blog/<int:pk>',views.update_blog,name='update_blog'),
+    path('delete_blog/<int:pk>',views.delete_blog,name='delete_blog'),
+    
     
 ]

@@ -312,6 +312,10 @@ def delete_compost_inquiry_record(request, pk):
         return redirect('home')
 
 
+def bookapt(request):
+    form = AppointmentRecord(request.POST or None)
+    return render(request, 'bookappointment.html',{'form': form})
+
 def blog_show(request):
     email_user = request.session.get('email_user', None)
     posts = BlogPost.objects.all()
@@ -329,6 +333,31 @@ def add_blog(request):
     return render(request, 'add_blog.html', {'form': form})
 
 
-def bookapt(request):
-    form = AppointmentRecord(request.POST or None)
-    return render(request, 'bookappointment.html',{'form': form})
+def update_blog(request, pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        current_record = get_object_or_404(BlogPost, id=pk)
+        form = BlogPostForm(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Blog Updated...")
+            return redirect('blog_show')
+        return render(request, 'Update_Blog_Content.html', {'form': form})
+    else:
+        messages.error(request, "You Must Be Logged In...")
+        return redirect('home')
+
+def delete_blog(request, pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        if request.method == 'POST':
+            delete_record = BlogPost.objects.get(id=pk)
+            delete_record.delete()
+            messages.success(request, "Blog Deleted Successfully...")
+            return redirect('blog_show')
+        else:
+            # Render a confirmation page if the request method is GET
+            return render(request, 'delete_blog_content.html', {'inquiries_id': pk})
+    else:
+        messages.error(request, "You Must Be Logged In To Delete Record...")
+        return redirect('home')

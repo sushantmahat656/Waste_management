@@ -29,6 +29,7 @@
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="Records">
+                    <div class="table-responsive">
                     <h1>Records</h1>
                     <table class="table table-striped table-hover table-bordered border-success table-group-divider">
                         <thead class="table-success">
@@ -61,7 +62,9 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
                 <div class="tab-pane fade" id="Appointments">
+                    <div class="table-responsive">
                     <h1>Appointments</h1>
                     <table class="table table-striped table-hover table-bordered border-success table-group-divider">
                         <thead class="table-success">
@@ -118,7 +121,9 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
                 <div class="tab-pane fade" id="Compost_Inquiry">
+                    <div class="table-responsive">
                     <h1>Compost Inquiry</h1>
                     <table class="table table-striped table-hover table-bordered border-success table-group-divider">
                         <thead class="table-success">
@@ -127,8 +132,8 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Quantity</th>
-                                <th scope="col">Message</th>
-                                <th scope="col">Created_By</th>
+                                
+                                
                                 <th scope="col">Created_at</th>
                                 <!-- <th scope="col">ID</th> -->
                             </tr>
@@ -144,14 +149,15 @@
                                         </td>
                                         <td>{{ inquirie.phone }}</td>
                                         <td>{{ inquirie.quantity }}</td>
-                                        <td>{{ inquirie.message }}</td>
-                                        <td>{{ inquirie.Created_By }}</td>
+                                       
+                                        
                                         <td>{{ inquirie.created_at }}</td>
                                     </tr>
                                 {% endfor %}
                             {% endif %}
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         </div>
@@ -169,6 +175,7 @@
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="Appointment">
+                    <div class="table-responsive">
                     <h1>Appointment</h1>
                     <table class="table table-striped table-hover table-bordered border-success table-group-divider">
                         <thead class="table-success">
@@ -210,6 +217,7 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
             </div>
         </div>
     </div>
@@ -240,7 +248,7 @@
 
     <script>
         var video = document.getElementById('videoPlayer');
-        video.playbackRate = 4;
+        video.playbackRate = 5;
     </script>
 {% else %}
     <div class="position-relative">
@@ -269,7 +277,7 @@
 
     <script>
         var video = document.getElementById('videoPlayer');
-        video.playbackRate = 4;
+        video.playbackRate = 5;
     </script>
 {% endif %}
 {% endblock %}

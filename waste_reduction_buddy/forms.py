@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Record, Appointment, Compost_inquiry,BlogPost
+from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us
 from datetime import date, timedelta
 
 class SignUpForm(UserCreationForm):
@@ -156,7 +156,7 @@ class CompostInquiryForm(forms.ModelForm):
     email = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Email", "class": "form-control"}))
     phone = forms.IntegerField(widget=forms.NumberInput(attrs={"placeholder": "Phone", "class": "form-control"}))
     quantity = forms.IntegerField(widget=forms.NumberInput(attrs={"placeholder": "Quantity in KG(Kilo Gram) ", "class": "form-control"}))
-    message = forms.CharField(widget=forms.Textarea(attrs={"placeholder": "Message Of only 200 characters are allowed...", "class": "form-control", "rows": 4}))
+    message = forms.CharField(widget=forms.Textarea(attrs={"placeholder": "Message Of only 200 characters are allowed...", "class": "form-control", "rows": 3}))
 
     class Meta:
         model = Compost_inquiry
@@ -178,3 +178,11 @@ class BlogPostForm(forms.ModelForm):
         model = BlogPost
         fields = ['title', 'image', 'content']
 
+class ContactForm(forms.ModelForm):
+    FullName = forms.CharField(max_length=100, label='Full Name')
+    email = forms.EmailField(label='Email')
+    message = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), label='Message')
+
+    class Meta:
+        model = Contact_Us
+        fields = ['FullName', 'email', 'message']

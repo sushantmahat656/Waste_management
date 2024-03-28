@@ -62,8 +62,8 @@ class Compost_inquiry(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     Created_By = models.ForeignKey(User,on_delete=models.CASCADE,null=True, default =None)
     full_name = models.CharField(max_length=50)
-    email = models.EmailField(max_length=50)
-    phone = models.IntegerField()
+    email = models.EmailField(max_length=100)
+    phone = models.BigIntegerField()
     quantity = models.IntegerField()
     message = models.TextField(max_length=200)
 
@@ -85,7 +85,6 @@ class Contact_Us(models.Model):
     Created_By = models.ForeignKey(User,on_delete=models.CASCADE,null=True, default =None)
     full_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=50)
-    phone = models.IntegerField()
     message = models.TextField(max_length=200)
 
     def __str__(self):

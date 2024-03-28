@@ -3,8 +3,8 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm,UpdateStaffRecordForm
-from .models import Record, Appointment, Compost_inquiry,BlogPost
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm,UpdateStaffRecordForm,ContactForm
+from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us
 from .faq_chatbot import FAQChatbot
 from django.contrib.auth.models import User
 
@@ -33,7 +33,7 @@ def home(request):
 def faq_chatbot(request):
      # Check if the user is opening the panel for the first time
     if not request.session.get('has_visited_chatbot_panel', False):
-        welcome_message = "Hello! I'm your WasteBuddy chatbot. Feel free to ask me any questions about WasteBuddy, like: 'What is WasteBuddy?' or 'How can I book an appointment?'"
+        welcome_message = "Hello! I'm your WasteBuddy chatbot. Feel free to ask me any questions about WasteBuddy"
 
         # Store the fact that the user has visited the chatbot panel
         request.session['has_visited_chatbot_panel'] = True
@@ -41,13 +41,14 @@ def faq_chatbot(request):
         return render(request, 'faq_chatbot.html', {'chatbot_response': welcome_message})
 
     # Get user's question from the form
-    user_question = request.POST.get('user_question', '')
+    user_question = request.POST.get('user_question','')
 
     # Get the previous question and answer (if available) from the session
     previous_question = request.session.get('previous_question', '')
     previous_answer = request.session.get('previous_answer', '')
 
     # Get chatbot response
+
     chatbot_response = FAQChatbot.get_answer(user_question)
     print(user_question)
 
@@ -260,16 +261,16 @@ def update_selected_person(request, appointment_id):
 
 
 def compost_inquiry(request):
-    form = CompostInquiryForm()
     if request.method == "POST":
         form = CompostInquiryForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, "Compost Inquiry Added Successfully.")
-            return redirect('home')
-        else:
+            return redirect('compost_inquiry')  
+        else:           
             messages.error(request, "Compost Inquiry was incomplete. Please enter valid information.")
-
+    else:
+        form = CompostInquiryForm()
     return render(request, 'compost_inquiry.html', {'form': form})
 
 
@@ -361,3 +362,17 @@ def delete_blog(request, pk):
     else:
         messages.error(request, "You Must Be Logged In To Delete Record...")
         return redirect('home')
+
+def contact_us(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thank you for your interest.")
+            return render(request, 'contact.html')
+        else:
+            messages.error(request, "Form submission failed. Please correct the errors.")
+            return render(request, 'contact.html', {'form': form})
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})

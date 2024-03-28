@@ -1,9 +1,147 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% load static %}
+    {% load static %}
+    <section class="gradient-custom">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-7 col-xl-7">
+                    <ul class="list-unstyled text-white">
+                        {% if previous_answer is None %}
+                            <li class="d-flex justify-content-between mb-4">
+                                <img src="/static/images/bot.png" alt="avatar"
+                                    class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                                <div class="card mask-custom">
+                                    <div class="card-header d-flex justify-content-between p-3 bg-success"
+                                        style="border-bottom: 1px solid rgba(144, 245, 216, 0.8);">
+                                        <p class="fw-bold mb-0">ChatBot</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">
+                                            {% if chatbot_response %}
+                                                <div class="chatbot-response">
+                                                    {{ chatbot_response }}
+                                                </div>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <form id="chat-form" method="POST" action="{% url 'faq_chatbot' %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="user-question" class="form-label">Enter your question:</label>
+                                        <input type="text" class="form-control" name="user_question" id="user-question"
+                                            required>
+                                    </div>
+                                    <div class="text-center"> <!-- Center the button -->
+                                        <button type="submit" class="btn btn-success">CHAT</button>
+                                    </div>
+                                </form>
+                            </li>
+                        {% elif current_question == '' %}
+                            <ul class="list-unstyled text-white">
+                    <li class="d-flex justify-content-between mb-4">
+                        <img src="/static/images/bot.png" alt="avatar"
+                            class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                        <div class="card mask-custom">
+                            <div class="card-header d-flex justify-content-between p-3 bg-success"
+                                style="border-bottom: 1px solid rgba(144, 245, 216, 0.8);">
+                                <p class="fw-bold mb-0">ChatBot</p>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-0">
+
+                                        <div class="chatbot-response">
+                                            <p>
+                                                Hello! I'm your WasteBuddy chatbot. Feel free to ask me any questions about WasteBuddy
+                                            </p>
+                                        </div>
+                                    
+                                </p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="mb-3">
+                        <form id="chat-form" method="POST" action="{% url 'faq_chatbot' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="user-question" class="form-label">Enter your question:</label>
+                                <input type="text" class="form-control" name="user_question" id="user-question"
+                                    required>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success">CHAT</button>
+                            </div>
+                        </form>
+                    </li>
+                </ul>
+                        {% else %}
+                            {% if current_question is not None %}
+                            <li class="d-flex justify-content-between mb-4">
+                                <div class="card mask-custom w-100">
+                                    <div class="card-header d-flex justify-content-between p-3"
+                                        style="border-bottom: 1px solid rgba(144, 245, 216, 0.8);">
+                                        <p class="fw-bold mb-0">User</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">
+                                            {% if current_question %}
+                                                <div class="current-question">
+                                                    {{ current_question }}
+                                                </div>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                                <img src="/static/images/user.jpg" alt="avatar"
+                                    class="rounded-circle d-flex align-self-start ms-3 shadow-1-strong" width="60">
+                            </li>
+                            <li class="d-flex justify-content-between mb-4">
+                                <img src="/static/images/bot.png" alt="avatar"
+                                    class="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60">
+                                <div class="card mask-custom">
+                                    <div class="card-header d-flex justify-content-between p-3 bg-success"
+                                        style="border-bottom: 1px solid rgba(144, 245, 216, 0.8);">
+                                        <p class="fw-bold mb-0">ChatBot</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="mb-0">
+                                            {% if chatbot_response %}
+                                                <div class="chatbot-response">
+                                                    {{ chatbot_response }}
+                                                </div>
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mb-3">
+                                <form id="chat-form" method="POST" action="{% url 'faq_chatbot' %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label for="user-question" class="form-label">Enter your question:</label>
+                                        <input type="text" class="form-control" name="user_question" id="user-question"
+                                            required>
+                                    </div>
+                                    <div class="text-center"> <!-- Center the button -->
+                                        <button type="submit" class="btn btn-success">CHAT</button>
+                                    </div>
+                                </form>
+                            </li>
+                            {% endif %}
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
     
-    <div class="card mt-4">
+    <!-- <div class="card mt-4">
         <div class="card-header" style="background-color: #a1dbb2;">
             <h2>FAQ Chat</h2>
         </div>
@@ -45,5 +183,4 @@
             </div>
             </form>
         </div>
-    </div>
-{% endblock %}
+    </div> -->

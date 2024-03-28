@@ -27,6 +27,6 @@ urlpatterns = [
     path('add_blog/',views.add_blog,name='add_blog'),
     path('update_blog/<int:pk>',views.update_blog,name='update_blog'),
     path('delete_blog/<int:pk>',views.delete_blog,name='delete_blog'),
-    
+    path('contact_us/',views.contact_us,name='contact_us'),
     
 ]

@@ -33,8 +33,12 @@
             <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
           </li>
+          
           
           
         {% else %}
@@ -48,11 +52,15 @@
             <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
           </li>
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'login_user' %}">Login</a>
           </li>          
           <li class="nav-item">
             <a class="nav-link" href="{% url 'register_user' %}">Register</a>
           </li>
+          
 
 
           

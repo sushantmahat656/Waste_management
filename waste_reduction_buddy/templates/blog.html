@@ -16,7 +16,8 @@
                       <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
                         <h2>{{ post.title }}</h2>
                         <img src="{{ post.image.url }}" alt="{{ post.title }}" class="img-fluid">
-                        <p>{{ post.content }}</p>
+                        
+                        <p>{{ post.content | safe }}</p>
                         {% if user.is_authenticated and email_user == 'binod.raut@wastebuddy.com' %}
                         <div class="text-center">
                             <a href="{% url 'update_blog' post.id%}" class="btn btn-success">Edit</a>

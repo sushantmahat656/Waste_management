@@ -179,10 +179,10 @@ class BlogPostForm(forms.ModelForm):
         fields = ['title', 'image', 'content']
 
 class ContactForm(forms.ModelForm):
-    FullName = forms.CharField(max_length=100, label='Full Name')
+    full_name = forms.CharField(max_length=100, label='Full Name')
     email = forms.EmailField(label='Email')
     message = forms.CharField(widget=forms.Textarea(attrs={'rows': 3}), label='Message')
 
     class Meta:
         model = Contact_Us
-        fields = ['FullName', 'email', 'message']
+        fields = ['full_name', 'email', 'message']

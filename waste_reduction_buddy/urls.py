@@ -28,5 +28,7 @@ urlpatterns = [
     path('update_blog/<int:pk>',views.update_blog,name='update_blog'),
     path('delete_blog/<int:pk>',views.delete_blog,name='delete_blog'),
     path('contact_us/',views.contact_us,name='contact_us'),
+    path('contact_record/<int:pk>/', views.contact_record, name='contact_record'),
+    path('delete_contact/<int:pk>',views.delete_contact,name='delete_contact'),
     
 ]

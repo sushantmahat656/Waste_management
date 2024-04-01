@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Contact Us Record</h1>
+<div class="card">
+  <h5 class="card-header">
+  {{ contacts_record.full_name }}</h5>
+
+ 
+  
+  <div class="card-body">
+
+<p class="card-text">
+<strong>Email </strong>{{ contacts_record.email }}</p>
+
+<p class="card-text">
+<strong>Message </strong>{{ contacts_record.message }}
+</p>
+
+
+
+<p class="card-text">
+<strong>Creation Date </strong>{{ contacts_record.created_at }}</p>
+
+<p class="card-text">
+<strong>Created By </strong>{{ contacts_record.Created_By }}</p>
+
+
+    
+    
+  </div>
+</div>
+
+<br/><br/>      
+<a href="{% url 'home' %}" class="btn btn-success">Back</a>
+
+
+<a href="{% url 'delete_contact' contacts_record.id %}" class="btn btn-danger">Delete</a>
+
+
+
+
+{% endblock %}

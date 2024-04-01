@@ -24,6 +24,9 @@
                 <li class="nav-item">
                     <a class="nav-link" id="page3-tab" data-bs-toggle="tab" href="#Compost_Inquiry">Compost Inquiry</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="page4-tab" data-bs-toggle="tab" href="#Contact_Inquiry">Contact Us</a>
+                </li>
             </ul>
         </div>
         <div class="card-body">
@@ -159,7 +162,43 @@
                     </table>
                 </div>
                 </div>
+                <div class="tab-pane fade " id="Contact_Inquiry">
+                    <div class="table-responsive">
+                    <h1>Contact Us Inquiry</h1>
+                    <table class="table table-striped table-hover table-bordered border-success table-group-divider">
+                        <thead class="table-success">
+                            <tr>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Created_at</th>
+                                                            
+                                <th scope="col">ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if contacts %}
+                                {% for contact in contacts %}
+                                    <tr>
+                                        <td><a href="{% url 'contact_record' contact.id %}">{{ contact.full_name }}</a></td>
+                                        <td>{{ contact.email }}
+                                        <a href="mailto:{{ appointment.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a></td>
+                                        <td>{{ contact.message }}</td>
+                                        
+                                        <td>{{ contact.created_at }}</td>
+                                        <td><a href="{% url 'contact_record' contact.id %}">{{ contact.id }}</a></td>
+                                        
+                                        
+                                        
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
             </div>
+
         </div>
     </div>
 {% elif user.is_authenticated and email_domain == 'wastebuddy.com' %}
@@ -193,6 +232,7 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
                             {% if appointments %}
                                 {% for appointment in appointments %}
                                     <tr>
@@ -206,7 +246,7 @@
                                         <td>{{ appointment.Created_By }}</td>
                                         <td>
                                             {% if appointment.selected_person %}
-                                                {{ appointment.selected_person.first_name }} {{ appointment.selected_person.last_name }}
+                                                {{ appointment.selected_person.full_name }}
                                             {% else %}
                                                 <span class="text-danger">No person Appointed (Please Appoint a Pickup man)</span>
                                             {% endif %}
@@ -214,6 +254,7 @@
                                     </tr>
                                 {% endfor %}
                             {% endif %}
+                            
                         </tbody>
                     </table>
                 </div>

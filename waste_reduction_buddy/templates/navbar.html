@@ -25,7 +25,20 @@
 
         
 
-        {% elif user.is_authenticated  %}
+        {% elif user.is_authenticated and email_domain == 'wastebuddy.com' %}
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="{% url 'compost_inquiry' %}">Compost Inquiry</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'faq_chatbot' %}">FAQ</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'contact_us' %}">Contact Us</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
+          </li>
+          {% elif user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{% url 'compost_inquiry' %}">Compost Inquiry</a>
           </li>
@@ -38,7 +51,6 @@
           <li class="nav-item">
             <a class="nav-link" href="{% url 'logout_user' %}">Logout</a>
           </li>
-          
           
           
         {% else %}

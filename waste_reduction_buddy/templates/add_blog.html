@@ -1,45 +1,35 @@
 {% extends 'base.html' %}
 {% block content %}
 
-
-<html>
-<head>
-    <title>Add Blog Post</title>
-</head>
-<body>
-    <section class="mb-4">
-        <!-- Section heading -->
-        <div class="card mt-4">
-            <div class="card-body">
-                <div id="chat-container" style="height: 450px;">
-                    <h2 class="h1-responsive font-weight-bold text-center my-4">Add Blog</h2>
-                    <!-- Section: Contact v.2 -->
-                    <section class="mb-4">
-                        <div class="row justify-content-center mb-4">
-                            <!-- Form Section -->
-                            <div class="col-md-6">
-                                <form method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    {{ form.as_p }}
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-success">Blog</button>
-                                    </div>
-                                </form>
-
-                                    <br/>
-                                </form>
-                            </div>
-                            
+<div class="container">
+    <h2 class="h1-responsive font-weight-bold text-center my-4">Add Blog</h2>
+    <div class="card mt-4">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row justify-content-center">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="id_title" class="form-label">Title:</label>
+                            {{ form.title }}
                         </div>
-                    </section>
+                        <div class="mb-3">
+                            <label for="id_image" class="form-label">Image:</label>
+                            {{ form.image }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_content" class="form-label">Content:</label>
+                            {{ form.content }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Blog</button>
+                            <a href="{% url 'home' %}" class="btn btn-danger">Cancel</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </section>
-    
-    
-</body>
-</html>
-
+    </div>
+</div>
 
 {% endblock %}

@@ -2,7 +2,7 @@ from fuzzywuzzy import fuzz
 
 class FAQChatbot:
     FAQ_DATABASE = [
-        {'question': '', 'answer': 'Hello! I am your WasteBuddy chatbot. Feel free to ask me any questions about WasteBuddy'},
+        {'question': 'Appointment', 'answer': 'You can book an appointment on the homepage.'},
         {'question': 'What is WasteBuddy?', 'answer': 'WasteBuddy is a waste management platform that helps in makeing earth a cleaner place.'},
         {'question': 'How can I book an appointment?', 'answer': 'You can book an appointment on the homepage.'},
         

@@ -3,10 +3,11 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm,UpdateStaffRecordForm,ContactForm
-from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm,UpdateStaffRecordForm,ContactForm,ProductForm
+from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us, Product
 from .faq_chatbot import FAQChatbot
 from django.contrib.auth.models import User
+
 
 
 
@@ -399,6 +400,54 @@ def delete_contact(request, pk):
         else:
             # Render a confirmation page if the request method is GET
             return render(request, 'delete_contact_record.html', {'contacts_id': pk})
+    else:
+        messages.error(request, "You Must Be Logged In To Delete Record...")
+        return redirect('home')
+
+def product_list(request):
+    email_user = request.session.get('email_user', None)
+    products = Product.objects.all()
+    return render(request, 'product_list.html', {'products': products,'email_user': email_user})
+
+def add_product(request):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        if request.method == 'POST':
+            form = ProductForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+                return redirect('product_list')
+        else:
+            form = ProductForm()
+        return render(request, 'add_product.html', {'form': form})
+    else:
+        messages.error(request, "You Must Be Logged and should be ADMIN Add Product...")
+        return redirect('home')
+
+def update_product(request, pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        current_record = get_object_or_404(Product, id=pk)
+        form = ProductForm(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "product Updated...")
+            return redirect('product_list')
+        return render(request, 'Update_Product_Content.html', {'form': form})
+    else:
+        messages.error(request, "You Must Be Logged In...")
+        return redirect('home')
+
+def delete_product(request, pk):
+    email_user = request.session.get('email_user', None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        if request.method == 'POST':
+            delete_record = Product.objects.get(id=pk)
+            delete_record.delete()
+            messages.success(request, "Product Deleted Successfully...")
+            return redirect('product_list')
+        else:
+            return render(request, 'delete_product_content.html', {'products_id': pk})
     else:
         messages.error(request, "You Must Be Logged In To Delete Record...")
         return redirect('home')

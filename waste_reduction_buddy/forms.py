@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us
+from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us,Product
 from datetime import date, timedelta
 
 class SignUpForm(UserCreationForm):
@@ -186,3 +186,8 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact_Us
         fields = ['full_name', 'email', 'message']
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'price', 'image']

@@ -76,7 +76,6 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Requested Date</th>
                                 <th scope="col">Option</th>
-                                
                                 <th scope="col">Selected Person</th>
                                 <th scope="col">Appoint To</th>
                                 <!-- <th scope="col">ID</th> -->
@@ -134,9 +133,7 @@
                                 <th scope="col">Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
-                                <th scope="col">Quantity</th>
-                                
-                                
+                                <th scope="col">Quantity</th>                                
                                 <th scope="col">Created_at</th>
                                 <!-- <th scope="col">ID</th> -->
                             </tr>
@@ -148,12 +145,9 @@
                                         <td><a href="{% url 'compost_inquiry_record' inquirie.id %}">{{ inquirie.full_name }}</a></td>
                                         <td>{{ inquirie.email }}
                                             <a href="mailto:{{ inquirie.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a>
-
                                         </td>
                                         <td>{{ inquirie.phone }}</td>
                                         <td>{{ inquirie.quantity }}</td>
-                                       
-                                        
                                         <td>{{ inquirie.created_at }}</td>
                                     </tr>
                                 {% endfor %}
@@ -184,7 +178,6 @@
                                         <td>{{ contact.email }}
                                         <a href="mailto:{{ appointment.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a></td>
                                         <td>{{ contact.message }}</td>
-                                        
                                         <td>{{ contact.created_at }}</td>
                                         <td><a href="{% url 'contact_record' contact.id %}">{{ contact.id }}</a></td>
                                         

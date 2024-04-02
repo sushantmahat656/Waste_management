@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+            <div class="row justify-content-center">
+                {% for product in products %}
+                    <div class="col-md-3"> <!-- Each product takes 3 columns to fit 4 products in a row -->
+                        <div class="card text-black">
+                            <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" />
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <span>Rs. {{ product.price }}/KG</span>
+                                    {% if user.is_authenticated and email_user == 'binod.raut@wastebuddy.com' %}
+                                        <div class="text-center">
+                                            <a href="{% url 'update_product' product.id%}" class="btn btn-success">Edit</a>
+                                            <a href="{% url 'delete_product' product.id %}" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                        </div><br/><div class="row justify-content-center">
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endblock %}

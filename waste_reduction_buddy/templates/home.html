@@ -167,7 +167,7 @@
                                 <th scope="col">Message</th>
                                 <th scope="col">Created_at</th>
                                                             
-                                <th scope="col">ID</th>
+                                
                             </tr>
                         </thead>
                         <tbody>
@@ -179,7 +179,6 @@
                                         <a href="mailto:{{ appointment.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a></td>
                                         <td>{{ contact.message }}</td>
                                         <td>{{ contact.created_at }}</td>
-                                        <td><a href="{% url 'contact_record' contact.id %}">{{ contact.id }}</a></td>
                                         
                                         
                                         
@@ -189,7 +188,9 @@
                         </tbody>
                     </table>
                 </div>
+
                 </div>
+
             </div>
 
         </div>
@@ -201,6 +202,9 @@
             <ul class="nav nav-tabs card-header-tabs">
                 <li class="nav-item">
                     <a class="nav-link active" id="page1-tab" data-bs-toggle="tab" href="#Appointment">Appointment</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="page3-tab" data-bs-toggle="tab" href="#Compost_Inquiry">Compost Inquiry</a>
                 </li>
             </ul>
         </div>
@@ -216,7 +220,7 @@
                                 <th scope="col">Email</th>
                                 <th scope="col">Phone</th>
                                 <th scope="col">Address</th>
-                                <th scope="col">City</th>
+
                                 <th scope="col">Option</th>
                                 <th scope="col">Created At</th>
                                 <th scope="col">Created By</th>
@@ -229,11 +233,13 @@
                             {% if appointments %}
                                 {% for appointment in appointments %}
                                     <tr>
-                                        <td><a href="{% url 'appointment_record' appointment.id %}">{{ appointment.full_name }}</a></td>
+                                        <td>
+                                            <!-- <a href="{% url 'appointment_record' appointment.id %}"> -->
+                                            {{ appointment.full_name }}</a></td>
                                         <td>{{ appointment.email }}</td>
                                         <td>{{ appointment.phone }}</td>
                                         <td>{{ appointment.address }}</td>
-                                        <td>{{ appointment.city }}</td>
+                                        
                                         <td>{{ appointment.selling_option }}</td>
                                         <td>{{ appointment.created_at }}</td>
                                         <td>{{ appointment.Created_By }}</td>
@@ -252,8 +258,43 @@
                     </table>
                 </div>
                 </div>
+                <div class="tab-pane fade" id="Compost_Inquiry">
+                    <div class="table-responsive">
+                    <h1>Compost Inquiry</h1>
+                    <table class="table table-striped table-hover table-bordered border-success table-group-divider">
+                        <thead class="table-success">
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Phone</th>
+                                <th scope="col">Quantity</th>                                
+                                <th scope="col">Created_at</th>
+                                <!-- <th scope="col">ID</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if inquiries %}
+                                {% for inquirie in inquiries %}
+                                    <tr>
+                                        <td>
+                                            <!-- <a href="{% url 'compost_inquiry_record' inquirie.id %}"> -->
+                                            {{ inquirie.full_name }}</a></td>
+                                        <td>{{ inquirie.email }}
+                                            <a href="mailto:{{ inquirie.email }}?subject=Thank you for contacting.&body=Your Body" class="btn btn-success">Send Email</a>
+                                        </td>
+                                        <td>{{ inquirie.phone }}</td>
+                                        <td>{{ inquirie.quantity }}</td>
+                                        <td>{{ inquirie.created_at }}</td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+                </div>
             </div>
         </div>
+
     </div>
 {% elif user.is_authenticated %}
     <div class="position-relative">

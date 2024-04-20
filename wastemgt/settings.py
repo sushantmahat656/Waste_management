@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'waste_reduction_buddy',
+    
 ]
 
 MIDDLEWARE = [

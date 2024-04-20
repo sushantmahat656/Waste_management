@@ -3,8 +3,8 @@ from django.db import IntegrityError
 from django.shortcuts import render, redirect,  get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm,UpdateStaffRecordForm,ContactForm,ProductForm
-from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us, Product
+from .forms import SignUpForm, AddStaffRecord, AppointmentRecord, SelectedPersonUpdateForm, CompostInquiryForm,BlogPostForm,UpdateStaffRecordForm,ContactForm,ProductForm, FeedbackForm
+from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us, Product, Feedback
 from .faq_chatbot import FAQChatbot
 from django.contrib.auth.models import User
 
@@ -16,6 +16,7 @@ def home(request):
     appointments = Appointment.objects.all()
     inquiries = Compost_inquiry.objects.all()
     contacts = Contact_Us.objects.all()
+    feedbacks = Feedback.objects.all()
     email_domain = request.session.get('email_domain', None)
     email_user = request.session.get('email_user',None)
     form = AppointmentRecord(request.POST or None)
@@ -29,7 +30,7 @@ def home(request):
 
     
         
-    return render(request, 'home.html', {'records': records ,'appointments': appointments,'inquiries': inquiries ,'email_domain': email_domain,'email_user': email_user,'contacts': contacts,'form':form})
+    return render(request, 'home.html', {'records': records ,'appointments': appointments,'inquiries': inquiries ,'email_domain': email_domain,'email_user': email_user,'contacts': contacts,'form':form,'feedbacks': feedbacks})
 
 
 def faq_chatbot(request):
@@ -478,6 +479,49 @@ def delete_product(request, pk):
             return redirect('product_list')
         else:
             return render(request, 'delete_product_content.html', {'products_id': pk,'email_domain': email_domain,'email_user': email_user})
+    else:
+        messages.error(request, "You Must Be Logged In To Delete Record...")
+        return redirect('home')
+
+def feedback(request):
+    email_domain = request.session.get('email_domain', None)
+    email_user = request.session.get('email_user',None)
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Thank you for your Feedback.")
+            return render(request, 'feedback.html')
+        else:
+            messages.error(request, "Feedback submission failed. Please correct the errors.")
+            return render(request, 'feedback.html', {'form': form})
+    else:
+        form = FeedbackForm()
+    return render(request, 'feedback.html', {'form': form,'email_domain': email_domain,'email_user': email_user})
+
+def feedback_record(request,pk):
+    email_domain = request.session.get('email_domain', None)
+    email_user = request.session.get('email_user',None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        feedback_record = Feedback.objects.get(id = pk)
+        return render(request, 'feedback_record.html', {'feedback_record':feedback_record,'email_domain': email_domain,'email_user': email_user},)
+    else:
+        messages.error(request, "You must be Admin to View.")
+        return redirect('home')
+
+
+def delete_feedback(request, pk):
+    email_domain = request.session.get('email_domain', None)
+    email_user = request.session.get('email_user',None)
+    if request.user.is_authenticated and email_user == 'binod.raut@wastebuddy.com':
+        if request.method == 'POST':
+            delete_record = Feedback.objects.get(id=pk)
+            delete_record.delete()
+            messages.success(request, "FeedBack Deleted Successfully...")
+            return redirect('home')
+        else:
+            # Render a confirmation page if the request method is GET
+            return render(request, 'delete_feedback_record.html', {'feedbacks_id': pk,'email_domain': email_domain,'email_user': email_user})
     else:
         messages.error(request, "You Must Be Logged In To Delete Record...")
         return redirect('home')

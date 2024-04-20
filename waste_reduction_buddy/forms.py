@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
-from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us,Product
+from .models import Record, Appointment, Compost_inquiry,BlogPost,Contact_Us,Product, Feedback
 from datetime import date, timedelta
 
 class SignUpForm(UserCreationForm):
@@ -191,3 +191,20 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ['name', 'price', 'image']
+
+
+
+
+class FeedbackForm(forms.ModelForm):
+    class Meta:
+        model = Feedback
+        fields = ['name', 'rating', 'message']
+        widgets = {
+            'message': forms.Textarea(attrs={'rows': 5}),
+        }
+
+    def clean_rating(self):
+        rating = self.cleaned_data['rating']
+        if rating < 0 or rating > 5:
+            raise forms.ValidationError("Rating must be between 0 and 5.")
+        return rating

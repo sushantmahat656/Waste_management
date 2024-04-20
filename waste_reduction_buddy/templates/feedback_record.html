@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>FeedBacks</h1>
+<div class="card">
+  <h5 class="card-header">
+  {{ feedback_record.name }}</h5>
+
+ 
+  
+  <div class="card-body">
+
+<p class="card-text">
+<strong>Rating </strong>{{ feedback_record.rating }}</p>
+
+<p class="card-text">
+<strong>Message </strong>{{ feedback_record.message }}
+</p>
+
+
+
+<p class="card-text">
+<strong>Creation Date </strong>{{ feedback_record.created_at }}</p>
+
+  
+    
+  </div>
+</div>
+
+<br/><br/>      
+<a href="{% url 'home' %}" class="btn btn-success">Back</a>
+
+
+<a href="{% url 'delete_feedback' feedback_record.id %}" class="btn btn-danger">Delete</a>
+
+
+
+
+{% endblock %}

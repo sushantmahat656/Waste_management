@@ -1,0 +1,10 @@
+asgiref==3.7.2
+Django==5.0.2
+fuzzywuzzy==0.18.0
+mysql==0.0.3
+mysql-connector==2.2.9
+mysql-connector-python==8.3.0
+mysqlclient==2.2.4
+pillow==10.2.0
+sqlparse==0.4.4
+tzdata==2024.1

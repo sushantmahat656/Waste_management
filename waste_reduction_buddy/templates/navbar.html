@@ -49,6 +49,9 @@
           </li>
           {% elif user.is_authenticated %}
           <li class="nav-item">
+            <a class="nav-link" href="{% url 'feedback' %}">FeedBack</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="{% url 'compost_inquiry' %}">Compost Inquiry</a>
           </li>
           <li class="nav-item">

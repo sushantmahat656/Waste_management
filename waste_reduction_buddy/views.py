@@ -9,8 +9,6 @@ from .faq_chatbot import FAQChatbot
 from django.contrib.auth.models import User
 
 
-
-
 def home(request):
     records = Record.objects.all()
     appointments = Appointment.objects.all()

@@ -1,3 +1,4 @@
+5:47 PM 4/23/2024
 Firstly Create This directory (wastemanagement)for making virtual enviroment
 ----------------------------
 mkdir /c/wastemanagement/
@@ -29,6 +30,9 @@ use this command to start the project
  django-admin startproject wastemgt
 ---------------------------------
 after starting the project clone the project or copy and paste wastemgt folder
+
+
+clone command:----------->git clone https://github.com/sushantmahat656/Waste_management.git
 
 
 

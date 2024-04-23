@@ -58,14 +58,10 @@ class WasteManagementViewsTests(TestCase):
         self.assertEqual(response.status_code, 200)
 
         
-
-
-
-    
     def test_register_view(self):
         
         # Test registration with invalid data
-        request = self.factory.post(reverse('register_user'), {'email': 'existing@example.com', 'password1': 'testpassword', 'password2': 'testpassword'})
+        request = self.factory.post(reverse('register_user'), {'email': 'Apple@Gmail.com', 'password1': 'testpassword', 'password2': 'testpassword'})
         response = register_user(request)
         self.assertEqual(response.status_code, 200)  # Registration form should be displayed again
 
@@ -108,7 +104,7 @@ class WasteManagementViewsTests(TestCase):
         response = self.client.get(reverse('faq_chatbot'))
         self.assertEqual(response.status_code, 200)
 
-        # Log in as normal user
+        
         self.client.login(username='binod.raut@wastebuddy.com', password='1234')
 
         # Test accessing the FAQ chatbot view as an authenticated user
@@ -280,7 +276,7 @@ class WasteManagementViewsTests(TestCase):
         response = self.client.get(reverse('product_list'))
         self.assertEqual(response.status_code, 200)
 
-        # You can add more specific tests for the content of the product list if needed
+        
 
     def test_add_product_view_authenticated_admin(self):
         # Log in as admin user
